@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-namespace _Game.Scripts.Machines
+namespace AncientForge.Machines
 {
+	[RequireComponent(typeof(MachineDisplay))]
 	public class MachineManager : MonoBehaviour
 	{
-		
+		[SerializeField] private MachineListConfig machineList;
 	}
 }

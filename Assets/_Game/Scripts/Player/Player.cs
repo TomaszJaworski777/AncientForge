@@ -1,5 +1,6 @@
 ﻿using System;
 using AncientForge.Inventory;
+using AncientForge.Machines;
 using AncientForge.Quests;
 using UnityEngine;
 
@@ -7,11 +8,13 @@ namespace AncientForge
 {
 	public class Player : MonoBehaviour
 	{
-		[SerializeField] private InventoryBase inventoryBase;
-		[SerializeField] private QuestManager  questManager;
+		[SerializeField] private InventoryBase  inventoryBase;
+		[SerializeField] private QuestManager   questManager;
+		[SerializeField] private MachineManager machineManager;
 
-		public InventoryBase Inventory    => inventoryBase;
-		public QuestManager  QuestManager => questManager;
+		public InventoryBase  Inventory      => inventoryBase;
+		public QuestManager   QuestManager   => questManager;
+		public MachineManager MachineManager => machineManager;
 
 		public Action<InventoryItem>   OnItemCrafted    { get; set; }
 		public Action<QuestInProgress> OnQuestCompleted { get; set; }
