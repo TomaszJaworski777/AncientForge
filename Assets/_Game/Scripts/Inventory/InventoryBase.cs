@@ -1,32 +1,53 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AncientForge.Inventory
 {
-	public class InventoryBase : MonoBehaviour //TODO: Inventory manipulation with updating UI and calling events
+	[RequireComponent( typeof( InventoryDisplay ) )]
+	public class InventoryBase : MonoBehaviour
 	{
-		[FormerlySerializedAs( "inventorySettings" )] [SerializeField] private InventorySettingsConfig inventorySettingsConfig;
-		
-		private List<InventorySlot> _slots = new();
-		private InventoryContent    _content;
-		
+		[SerializeField] private InventorySettingsConfig inventorySettings;
+
+		private InventoryDisplay _display;
+		private InventoryContent _items;
+
+		public InventoryDisplay.Events DisplayEvents => _display?.DisplayEvents;
+
+		public List<InventoryItemStack> Items => _items.Items;
+
 		private void Awake( )
 		{
-			_slots   = GetComponent<IInventorySlotPattern>( ).GetSlots( this );
-			_content = new( _slots.Count );
+			//Separated display script allows for easy modification in the scenario where you want to use the inventory without display
+			//(f.ex. enemy unit inventory)
+			_display = GetComponent<InventoryDisplay>( );
+			_display.Initialize( this );
+
+			_items = new( _display.SlotCount );
 		}
 
-		public void OnInventorySlotPressed( int slotIndex )
+		public InventoryItem GetItem( int slotIndex ) => _items.GetItem( slotIndex );
+
+		public InventoryItemStack GetItemStack( int slotIndex ) => _items.GetItemStack( slotIndex );
+
+		public bool TryAdd( InventoryItemConfig itemConfig ) => TryAdd( new InventoryItem( itemConfig ) );
+
+		public bool TryAdd( InventoryItem item )
 		{
-			var itemStack = _content.GetItemStack( slotIndex );
-			Debug.Log($"slot {slotIndex} pressed. isEmpty = {itemStack.IsEmpty}");
+			if ( !_items.TryAddItem( item, out var slotIndex ) )
+				return false;
+
+			_display.UpdateUI( slotIndex, _items.GetItemStack( slotIndex ) );
+			return true;
 		}
-		
-		private void OnValidate( )
+
+		public bool TryRemove( int slotIndex )
 		{
-			if( GetComponent<IInventorySlotPattern>() == null )
-				Debug.LogWarning( $"InventoryBase script on object {gameObject} require IInventorySlotPattern script!" );
+			if ( !_items.TryTakeItem( slotIndex, out _ ) )
+				return false;
+
+			_display.UpdateUI( slotIndex, _items.GetItemStack( slotIndex ) );
+			return true;
 		}
 	}
 }

@@ -10,13 +10,13 @@ namespace AncientForge.Inventory.SlotPatterns
 		[SerializeField] private InventorySlot inventorySlotPrefab;
 		[SerializeField] private Vector2Int    gridSize;
 
-		public List<InventorySlot> GetSlots( InventoryBase inventoryBase )
+		public List<InventorySlot> GetSlots( InventoryDisplay inventoryDisplay )
 		{
 			var result = new List<InventorySlot>( );
 
 			for ( var i = 0; i < gridSize.x * gridSize.y; i++ ) {
 				var slot = Instantiate( inventorySlotPrefab, transform );
-				slot.Initialize( inventoryBase, i );
+				slot.Initialize( inventoryDisplay, i );
 				result.Add( slot );
 			}
 

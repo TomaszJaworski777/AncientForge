@@ -9,15 +9,13 @@ namespace AncientForge.Inventory
 {
 	public class InventorySlot : Button
 	{
-		private InventoryBase          _inventoryBase;
 		private List<ISelectionEffect> _selectionEffects;
 
-		public void Initialize( InventoryBase inventoryBase, int index )
+		public void Initialize( InventoryDisplay inventoryDisplay, int index )
 		{
 			_selectionEffects = GetComponents<ISelectionEffect>( ).ToList( );
-			_inventoryBase    = inventoryBase;
 
-			onClick.AddListener( ( ) => _inventoryBase.OnInventorySlotPressed( index ) );
+			onClick.AddListener( ( ) => inventoryDisplay.OnInventorySlotPressed( index ) );
 		}
 
 		public override void OnPointerEnter( PointerEventData eventData )
@@ -38,6 +36,11 @@ namespace AncientForge.Inventory
 			}
 		}
 
+		public void UpdateUI( InventoryItemStack itemStack )
+		{
+			
+		}
+		
 		protected override void OnValidate( )
 		{
 			base.OnValidate( );

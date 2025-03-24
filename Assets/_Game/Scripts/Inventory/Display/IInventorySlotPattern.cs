@@ -4,6 +4,6 @@ namespace AncientForge.Inventory
 {
 	public interface IInventorySlotPattern
 	{
-		public List<InventorySlot> GetSlots( InventoryBase inventoryBase );
+		public List<InventorySlot> GetSlots( InventoryDisplay inventoryDisplay );
 	}
 }

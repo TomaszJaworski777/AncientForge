@@ -9,11 +9,11 @@
 		public bool IsFull => Item != null && Item.ItemConfig.stackSize == Quantity;
 
 		/// <summary>
-		/// Adds an item to the item stack.
+		/// Tries to add an item to the item stack.
 		/// </summary>
 		/// <param name="item">Instance of the item to add.</param>
-		/// <returns></returns>
-		public bool Add( InventoryItem item )
+		/// <returns>Returns true if item was added successfully, false if adding the item failed.</returns>
+		public bool TryAdd( InventoryItem item )
 		{
 			if ( IsFull )
 				return false;
@@ -25,10 +25,10 @@
 		}
 
 		/// <summary>
-		/// Removes 1 item from the stack. If stack quantity reaches 0, it automatically will set item to null.
+		/// Tries to remove 1 item from the stack. If stack quantity reaches 0, it automatically will set item to null.
 		/// </summary>
-		/// <returns></returns>
-		public bool Remove( )
+		/// <returns>Returns true if item was removed successfully, returns false if item removal failed.</returns>
+		public bool TryRemove( )
 		{
 			if( Quantity == 0 || Item == null )
 				return false;
