@@ -25,12 +25,12 @@ namespace AncientForge.Inventory
 			_slots         = GetComponent<IInventorySlotPattern>( ).GetSlots( this );
 		}
 
-		public void UpdateUI( int slotIndex, InventoryItemStack itemStack )
+		public void UpdateDisplay( int slotIndex, InventoryItemStack itemStack )
 		{
 			if ( slotIndex > SlotCount - 1 )
 				return;
 
-			_slots[slotIndex].UpdateUI( itemStack );
+			_slots[slotIndex].UpdateDisplay( itemStack );
 		}
 
 		public void OnInventorySlotPressed( int slotIndex )

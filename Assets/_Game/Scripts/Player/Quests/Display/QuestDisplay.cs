@@ -43,7 +43,7 @@ namespace AncientForge.Quests
 			if ( !_questWidgets.TryGetValue( quest, out var widget ) )
 				return;
 
-			widget.Display( quest );
+			widget.UpdateDisplay( quest );
 		}
 
 		private void OnQuestCompleted( QuestInProgress quest )

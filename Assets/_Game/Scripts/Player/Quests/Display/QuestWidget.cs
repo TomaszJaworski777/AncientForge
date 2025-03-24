@@ -16,15 +16,15 @@ namespace AncientForge.Quests
 			titleText.text = quest.QuestConfig.questName;
 			for ( var i = 0; i < quest.QuestConfig.requirements.Count; i++ ) {
 				var line = Instantiate( questLinePrefab, transform );
-				line.Display( quest.QuestConfig.requirements[i], quest.Progress[i] );
+				line.UpdateDisplay( quest.QuestConfig.requirements[i], quest.Progress[i] );
 				_lines.Add( line );
 			}
 		}
 
-		public void Display( QuestInProgress quest )
+		public void UpdateDisplay( QuestInProgress quest )
 		{
 			for ( var i = 0; i < _lines.Count; i++ ) {
-				_lines[i].Display( quest.QuestConfig.requirements[i], quest.Progress[i] );
+				_lines[i].UpdateDisplay( quest.QuestConfig.requirements[i], quest.Progress[i] );
 			}
 		}
 	}

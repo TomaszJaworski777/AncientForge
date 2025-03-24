@@ -59,7 +59,7 @@ namespace AncientForge.Inventory
 				return false;
 
 			OnItemAdded?.Invoke( item );
-			_display.UpdateUI( slotIndex, _items.GetItemStack( slotIndex ) );
+			_display.UpdateDisplay( slotIndex, _items.GetItemStack( slotIndex ) );
 			return true;
 		}
 
@@ -69,7 +69,7 @@ namespace AncientForge.Inventory
 				return false;
 
 			OnItemRemoved?.Invoke( item );
-			_display.UpdateUI( slotIndex, _items.GetItemStack( slotIndex ) );
+			_display.UpdateDisplay( slotIndex, _items.GetItemStack( slotIndex ) );
 			return true;
 		}
 	}

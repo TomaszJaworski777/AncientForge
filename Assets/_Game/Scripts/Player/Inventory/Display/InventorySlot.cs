@@ -45,7 +45,7 @@ namespace AncientForge.Inventory
 			_inventoryDisplay.OnInventorySlotPressed( _slotIndex );
 		}
 
-		public void UpdateUI( InventoryItemStack itemStack )
+		public void UpdateDisplay( InventoryItemStack itemStack )
 		{
 			if ( itemStack.IsEmpty ) {
 				ResetSlotUI( );
