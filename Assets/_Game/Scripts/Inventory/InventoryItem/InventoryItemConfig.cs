@@ -2,7 +2,7 @@
 
 namespace AncientForge.Inventory
 {
-	[CreateAssetMenu( fileName = "NewInventoryItemConfig", menuName = "Config/Inventory/ItemConfig", order = 0 )]
+	[CreateAssetMenu( fileName = "New_InventoryItemConfig", menuName = "Config/Inventory/ItemConfig", order = 0 )]
 	public class InventoryItemConfig : ScriptableObject
 	{
 		public string itemName;
