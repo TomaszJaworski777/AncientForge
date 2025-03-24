@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882a299d9eb448938d6aabf4b3c32474, type: 3}
+  m_Name: SmeltMastery_Quest
+  m_EditorClassIdentifier: 
+  questName: Smelt Mastery
+  requirements:
+  - itemConfig: {fileID: 11400000, guid: e04afbaae9f615d44bccec9ff8ced195, type: 2}
+    quantity: 5
