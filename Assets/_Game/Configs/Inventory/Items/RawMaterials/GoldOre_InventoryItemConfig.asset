@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Gold Ore
   description: Raw material used to create gold-based items
   icon: {fileID: 21300000, guid: 6c39ce4d5e2a6a147971d904d3a4baac, type: 3}
-  stackSize: 4
+  stackSize: 99

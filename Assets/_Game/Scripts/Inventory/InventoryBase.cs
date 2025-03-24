@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace AncientForge.Inventory
 {
@@ -24,6 +25,23 @@ namespace AncientForge.Inventory
 			_display.Initialize( this );
 
 			_items = new( _display.SlotCount );
+
+			InitializeStartResources( );
+		}
+
+		private void InitializeStartResources( )
+		{
+			foreach ( var startResource in inventorySettings.startingResources ) {
+				//We add +1 to y in Random.Range because by default Random.Range second bound is exclusive, and we want it to be inclusive
+				var resourceCount = startResource.quantityRange.x == startResource.quantityRange.y
+					? startResource.quantityRange.x
+					: Random.Range( startResource.quantityRange.x, startResource.quantityRange.y + 1 );
+
+				for ( var i = 0; i < resourceCount; i++ ) {
+					if ( !TryAdd( startResource.itemConfig ) )
+						break;
+				}
+			}
 		}
 
 		public InventoryItem GetItem( int slotIndex ) => _items.GetItem( slotIndex );

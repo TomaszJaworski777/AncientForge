@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Iron Ore
   description: Raw material used to create metal-based items
   icon: {fileID: 21300000, guid: 1ef64fa04947b2b4792fe59bd8d2fe16, type: 3}
-  stackSize: 4
+  stackSize: 99
