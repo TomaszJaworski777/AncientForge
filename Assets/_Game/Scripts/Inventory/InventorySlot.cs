@@ -9,16 +9,15 @@ namespace AncientForge.Inventory
 {
 	public class InventorySlot : Button
 	{
-		private InventoryBase   _inventoryBase;
+		private InventoryBase          _inventoryBase;
 		private List<ISelectionEffect> _selectionEffects;
 
-		public bool HasItem => false;
-		public bool IsFull  => true;
-
-		public void Initialize( InventoryBase inventoryBase )
+		public void Initialize( InventoryBase inventoryBase, int index )
 		{
 			_selectionEffects = GetComponents<ISelectionEffect>( ).ToList( );
-			_inventoryBase = inventoryBase;
+			_inventoryBase    = inventoryBase;
+
+			onClick.AddListener( ( ) => _inventoryBase.OnInventorySlotPressed( index ) );
 		}
 
 		public override void OnPointerEnter( PointerEventData eventData )

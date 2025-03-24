@@ -16,7 +16,7 @@ namespace AncientForge.Inventory.SlotPatterns
 
 			for ( var i = 0; i < gridSize.x * gridSize.y; i++ ) {
 				var slot = Instantiate( inventorySlotPrefab, transform );
-				slot.Initialize( inventoryBase );
+				slot.Initialize( inventoryBase, i );
 				result.Add( slot );
 			}
 
