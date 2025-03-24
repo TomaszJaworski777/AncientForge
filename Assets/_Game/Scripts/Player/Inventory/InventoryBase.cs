@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,7 +19,7 @@ namespace AncientForge.Inventory
 		public Action<InventoryItem> OnItemAdded   { get; set; }
 		public Action<InventoryItem> OnItemRemoved { get; set; }
 
-		public List<InventoryItemStack> Items => _items.Items;
+		public List<InventoryItemStack> Items => _items.Items.Where( itemStack => !itemStack.IsEmpty ).ToList();
 
 		private void Awake( )
 		{
@@ -46,6 +47,8 @@ namespace AncientForge.Inventory
 				}
 			}
 		}
+		
+		public int GetIndexOfStack( InventoryItemStack itemStack ) => _items.Items.IndexOf( itemStack );
 
 		public InventoryItem GetItem( int slotIndex ) => _items.GetItem( slotIndex );
 
@@ -62,10 +65,10 @@ namespace AncientForge.Inventory
 			_display.UpdateDisplay( slotIndex, _items.GetItemStack( slotIndex ) );
 			return true;
 		}
-
-		public bool TryRemove( int slotIndex )
+		
+		public bool TryRemove( int slotIndex, out InventoryItem item )
 		{
-			if ( !_items.TryTakeItem( slotIndex, out var item ) )
+			if ( !_items.TryTakeItem( slotIndex, out item ) )
 				return false;
 
 			OnItemRemoved?.Invoke( item );

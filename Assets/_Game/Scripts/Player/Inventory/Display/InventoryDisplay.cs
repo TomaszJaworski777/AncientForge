@@ -41,7 +41,7 @@ namespace AncientForge.Inventory
 				return;
 
 			DisplayEvents.OnItemPressed?.Invoke( itemStack.Item, ( ) => {
-				if ( !_inventoryBase.TryRemove( slotIndex ) )
+				if ( !_inventoryBase.TryRemove( slotIndex, out _ ) )
 					Debug.LogError( "Trying to take out item from empty inventory slot" );
 			} );
 		}
