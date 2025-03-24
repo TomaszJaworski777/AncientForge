@@ -15,6 +15,9 @@ namespace AncientForge.Inventory
 
 		public InventoryDisplay.Events DisplayEvents => _display?.DisplayEvents;
 
+		public Action<InventoryItem> OnItemAdded   { get; set; }
+		public Action<InventoryItem> OnItemRemoved { get; set; }
+
 		public List<InventoryItemStack> Items => _items.Items;
 
 		private void Awake( )
@@ -55,15 +58,17 @@ namespace AncientForge.Inventory
 			if ( !_items.TryAddItem( item, out var slotIndex ) )
 				return false;
 
+			OnItemAdded?.Invoke( item );
 			_display.UpdateUI( slotIndex, _items.GetItemStack( slotIndex ) );
 			return true;
 		}
 
 		public bool TryRemove( int slotIndex )
 		{
-			if ( !_items.TryTakeItem( slotIndex, out _ ) )
+			if ( !_items.TryTakeItem( slotIndex, out var item ) )
 				return false;
 
+			OnItemRemoved?.Invoke( item );
 			_display.UpdateUI( slotIndex, _items.GetItemStack( slotIndex ) );
 			return true;
 		}
