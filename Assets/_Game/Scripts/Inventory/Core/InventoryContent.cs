@@ -13,11 +13,12 @@ namespace AncientForge.Inventory
 		/// Initialize with empty item stacks.
 		/// </summary>
 		/// <param name="inventorySize">Size of the inventory.</param>
-		public InventoryContent( int inventorySize )
+		/// <param name="allowStacking">Defines if items can stack in this inventory.</param>
+		public InventoryContent( int inventorySize, bool allowStacking )
 		{
 			Items = new( inventorySize );
 			for ( var i = 0; i < inventorySize; i++ ) {
-				Items.Add( new( ) );
+				Items.Add( new( allowStacking ) );
 			}
 		}
 

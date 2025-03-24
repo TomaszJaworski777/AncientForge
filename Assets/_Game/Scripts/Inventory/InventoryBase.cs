@@ -24,7 +24,7 @@ namespace AncientForge.Inventory
 			_display = GetComponent<InventoryDisplay>( );
 			_display.Initialize( this );
 
-			_items = new( _display.SlotCount );
+			_items = new( _display.SlotCount, inventorySettings.allowStacking );
 
 			InitializeStartResources( );
 		}

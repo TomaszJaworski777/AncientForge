@@ -2,12 +2,21 @@
 {
 	public class InventoryItemStack
 	{
+		private bool _allowStacking;
+
 		public InventoryItem Item     { get; private set; }
 		public int           Quantity { get; private set; }
 
 		public bool IsEmpty => Item == null || Quantity == 0;
-		public bool IsFull => Item != null && Item.ItemConfig.stackSize == Quantity;
 
+		public bool IsFull =>
+			Item != null && ( ( Item.ItemConfig.stackSize == Quantity && _allowStacking ) || ( Quantity == 1 && !_allowStacking ) );
+
+		public InventoryItemStack( bool allowStacking )
+		{
+			_allowStacking = allowStacking;
+		}
+		
 		/// <summary>
 		/// Tries to add an item to the item stack.
 		/// </summary>
@@ -17,7 +26,7 @@
 		{
 			if ( IsFull )
 				return false;
-			
+
 			Item ??= item;
 			Quantity++;
 
@@ -30,9 +39,9 @@
 		/// <returns>Returns true if item was removed successfully, returns false if item removal failed.</returns>
 		public bool TryRemove( )
 		{
-			if( Quantity == 0 || Item == null )
+			if ( Quantity == 0 || Item == null )
 				return false;
-			
+
 			if ( --Quantity == 0 )
 				Item = null;
 
