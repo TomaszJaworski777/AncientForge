@@ -1,4 +1,4 @@
-﻿namespace AncientForge.Selectors
+﻿namespace AncientForge.Selection
 {
 	public interface ISelectionEffect
 	{

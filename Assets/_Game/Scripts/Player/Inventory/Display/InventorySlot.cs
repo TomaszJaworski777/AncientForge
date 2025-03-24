@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AncientForge.Selectors;
+﻿using AncientForge.Selection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,36 +6,20 @@ using UnityEngine.UI;
 
 namespace AncientForge.Inventory
 {
-	public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+	public class InventorySlot : MonoBehaviour, IPointerClickHandler
 	{
 		[SerializeField] private Image    icon;
 		[SerializeField] private TMP_Text quantityNumber;
-
-		private List<ISelectionEffect> _selectionEffects;
+		
 		private InventoryDisplay       _inventoryDisplay;
 		private int                    _slotIndex;
 
 		public void Initialize( InventoryDisplay inventoryDisplay, int index )
 		{
-			_selectionEffects = GetComponents<ISelectionEffect>( ).ToList( );
 			_inventoryDisplay = inventoryDisplay;
 			_slotIndex        = index;
 
 			ResetSlotUI( );
-		}
-
-		public void OnPointerEnter( PointerEventData eventData )
-		{
-			foreach ( var selector in _selectionEffects ) {
-				selector.Select( );
-			}
-		}
-
-		public void OnPointerExit( PointerEventData eventData )
-		{
-			foreach ( var selector in _selectionEffects ) {
-				selector.Deselect( );
-			}
 		}
 
 		public void OnPointerClick( PointerEventData eventData )

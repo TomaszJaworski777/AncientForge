@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace AncientForge.Selectors
+namespace AncientForge.Selection
 {
 	public class ColorSwapSelectionEffect : MonoBehaviour, ISelectionEffect
 	{

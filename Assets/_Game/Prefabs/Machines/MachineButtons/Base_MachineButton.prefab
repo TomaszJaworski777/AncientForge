@@ -221,6 +221,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5762803601503062742}
   - component: {fileID: 6913233621534867869}
+  - component: {fileID: 1681815954747194452}
+  - component: {fileID: 847434853212744533}
   m_Layer: 5
   m_Name: Base_MachineButton
   m_TagString: Untagged
@@ -263,6 +265,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00653341e93a4fe198565ccb5ec63e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1681815954747194452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902787772542476786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc154de1c846f381c9145a487d74dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &847434853212744533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902787772542476786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b1be164c1464b72a466b44652a32738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 6093557124966655354}
+  selectedColor: {r: 0.9607843, g: 0.34192583, b: 0.15294118, a: 1}
 --- !u!1 &1958346086001671456
 GameObject:
   m_ObjectHideFlags: 0

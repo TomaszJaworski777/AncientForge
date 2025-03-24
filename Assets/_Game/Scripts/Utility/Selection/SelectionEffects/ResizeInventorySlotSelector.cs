@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-namespace AncientForge.Selectors
+namespace AncientForge.Selection
 {
 	public class ResizeSelectionEffect : MonoBehaviour, ISelectionEffect
 	{
