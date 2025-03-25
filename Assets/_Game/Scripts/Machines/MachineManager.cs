@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ namespace AncientForge.Machines
 
 			_player.Inventory.DisplayEvents.OnItemPressed += OnPlayerItemPass;
 			_machines.OnCurrentMachineChange              += OnCurrentMachineChange;
+			_machines.OnCurrentRecipeChange               += OnCurrentRecipeChange;
 
 			SelectMachine( machineList.First( ) );
 		}
@@ -65,10 +67,18 @@ namespace AncientForge.Machines
 			if ( item == null )
 				return;
 
+			if ( _machines.CurrentMachine.IsWorking )
+				return;
+
 			if ( !_player.Inventory.TryAdd( item ) )
 				return;
 
 			callback?.Invoke( );
+		}
+
+		private void OnCurrentRecipeChange( RecipeConfig recipeConfig )
+		{
+			_machineDisplay.OnRecipeChange( _machines.CurrentMachine, recipeConfig );
 		}
 	}
 }

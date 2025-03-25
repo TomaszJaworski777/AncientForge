@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Game.Scripts.Recipes;
+using AncientForge.Inventory;
 
 namespace AncientForge.Machines
 {
@@ -12,11 +14,25 @@ namespace AncientForge.Machines
 			get => _currentMachine;
 			private set {
 				OnCurrentMachineChange?.Invoke( _currentMachine, value );
+				
+				//We don't register to the event to ensure that this code is called after all registered event methods
+				if ( _currentMachine != null ) {
+					_currentMachine.Inventory.OnItemAdded   -= OnItemAdded;
+					_currentMachine.Inventory.OnItemRemoved -= OnItemRemoved;
+				}
+			
+				value.Inventory.OnItemAdded   += OnItemAdded;
+				value.Inventory.OnItemRemoved += OnItemRemoved;
+				
 				_currentMachine = value;
+				_currentMachine.UpdateRecipe( );
+				
+				OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
 			}
 		}
 
 		public Action<Machine, Machine> OnCurrentMachineChange { get; set; }
+		public Action<RecipeConfig> OnCurrentRecipeChange { get; set; }
 
 		public Machines( List<Machine> machineList )
 		{
@@ -54,6 +70,22 @@ namespace AncientForge.Machines
 					player.Inventory.TryAdd( item );
 				}
 			}
+		}
+		
+		private void OnItemAdded( InventoryItem item )
+		{
+			if(!_currentMachine.UpdateRecipe())
+				return;
+			
+			OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
+		}
+
+		private void OnItemRemoved( InventoryItem item )
+		{
+			if(!_currentMachine.UpdateRecipe())
+				return;
+			
+			OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
 		}
 	}
 }

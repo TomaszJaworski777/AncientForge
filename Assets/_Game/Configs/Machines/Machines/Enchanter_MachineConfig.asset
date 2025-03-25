@@ -17,4 +17,6 @@ MonoBehaviour:
   unlockQuests: []
   uiPrefab: {fileID: 6706159427702439170, guid: dcc1c43a43898074eb7b2747ebaa54b1, type: 3}
   buttonPrefab: {fileID: 8329326571163730466, guid: 2f9c6544d047327478f98571ac35a5e9, type: 3}
-  recipes: []
+  recipes:
+  - {fileID: 11400000, guid: 66b193ece95d45d41be6e1343b583ec1, type: 2}
+  - {fileID: 11400000, guid: 67f781315197b414d81dad132fed86e9, type: 2}

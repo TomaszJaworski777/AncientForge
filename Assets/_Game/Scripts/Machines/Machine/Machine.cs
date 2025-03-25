@@ -1,4 +1,7 @@
-﻿using AncientForge.Inventory;
+﻿using System.Collections.Generic;
+using System.Linq;
+using _Game.Scripts.Recipes;
+using AncientForge.Inventory;
 using AncientForge.Quests;
 
 namespace AncientForge.Machines
@@ -12,13 +15,12 @@ namespace AncientForge.Machines
 
 		public InventoryBase Inventory { get; set; }
 
-		public bool IsWorking { get;  private set; }
-		public float Progress { get;  set; }
-		public float WorkDuration { get;  private set; }
-		
-		
-		
-		//TODO: Add property with currently processed recipe
+		public bool  IsWorking    { get; private set; }
+		public float Progress     { get; set; }
+		public float WorkDuration { get; private set; }
+		public float SuccessChance { get; private set; }
+
+		public RecipeConfig MatchingRecipe { get; private set; }
 
 		public Machine( MachineConfig machineConfig )
 		{
@@ -39,10 +41,38 @@ namespace AncientForge.Machines
 			}
 		}
 
-		public void StartJob( float duration ) //TODO: Calculate duration based on recipe on bonuses
+		public bool UpdateRecipe( )
 		{
+			var matchingRecipe = MachineConfig.recipes.Where( recipe => {
+				if ( recipe.ingredients.Count != Inventory.Items.Count )
+					return false;
+
+				var ingredientsCopy = new List<InventoryItemConfig>( recipe.ingredients );
+				foreach ( var itemConfig in Inventory.Items.Select( itemStack => itemStack.Item.ItemConfig ) ) {
+					if ( !ingredientsCopy.Contains( itemConfig ) )
+						return false;
+
+					ingredientsCopy.Remove( itemConfig );
+				}
+
+				return true;
+			} ).FirstOrDefault( );
+
+			if ( matchingRecipe == MatchingRecipe )
+				return false;
+
+			MatchingRecipe = matchingRecipe;
+
+			return true;
+		}
+
+		public void StartJob()
+		{
+			if(MatchingRecipe == null)
+				return;
+			
 			IsWorking    = true;
-			WorkDuration = duration;
-		} 
+			WorkDuration = MatchingRecipe.duration;
+		}
 	}
 }

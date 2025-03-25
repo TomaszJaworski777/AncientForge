@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
 using UnityEngine;
 
@@ -45,6 +46,14 @@ namespace AncientForge.Machines
 			_currentMachineWidget = Instantiate( machine.MachineConfig.uiPrefab, machineUiParent );
 			_currentMachineWidget.Initialize( machine );
 			return _currentMachineWidget.MachineInventory;
+		}
+
+		public void OnRecipeChange( Machine machine, RecipeConfig recipeConfig )
+		{
+			if(_currentMachineWidget == null)
+				return;
+			
+			_currentMachineWidget.OnRecipeChange( machine, recipeConfig );
 		}
 	}
 }

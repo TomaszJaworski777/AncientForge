@@ -18,4 +18,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 86ac592293b00e240b17b31a0018654f, type: 2}
   uiPrefab: {fileID: 6706159427702439170, guid: 9ed7c21a5048b804b8d2cceda78b4cb8, type: 3}
   buttonPrefab: {fileID: 8329326571163730466, guid: 2f9c6544d047327478f98571ac35a5e9, type: 3}
-  recipes: []
+  recipes:
+  - {fileID: 11400000, guid: 04d19bdf2412bf1449d23a246f55f02b, type: 2}
+  - {fileID: 11400000, guid: 2d1ad1ea99464434eae749bab99b5f96, type: 2}

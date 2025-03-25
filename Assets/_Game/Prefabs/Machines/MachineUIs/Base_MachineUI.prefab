@@ -1328,7 +1328,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Success Chance: {0}'
+  m_text: 'Success Chance: {0}%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
   m_sharedMaterial: {fileID: -5632946630366658612, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
@@ -1464,7 +1464,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Duration: {0}'
+  m_text: 'Duration: {0}s'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
   m_sharedMaterial: {fileID: -5632946630366658612, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
@@ -1706,11 +1706,11 @@ MonoBehaviour:
   descriptionText: {fileID: 9181259012143306000}
   resultIcon: {fileID: 8118364094704442732}
   inventoryBase: {fileID: 7545192220662650416}
-  forgeButton: {fileID: 0}
-  forgeButtonSelectableObject: {fileID: 0}
-  forgeButtonCanvasGroup: {fileID: 0}
-  durationText: {fileID: 0}
-  successChanceText: {fileID: 0}
+  forgeButton: {fileID: 8475706781987126767}
+  forgeButtonSelectableObject: {fileID: 8361180236183823222}
+  forgeButtonCanvasGroup: {fileID: 6253746956361099507}
+  durationText: {fileID: 3636464036953148656}
+  successChanceText: {fileID: 1169764942382066523}
 --- !u!1001 &1518541353497982234
 PrefabInstance:
   m_ObjectHideFlags: 0
