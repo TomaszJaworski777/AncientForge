@@ -1,4 +1,5 @@
-﻿using AncientForge.Inventory;
+﻿using AncientForge.BonusItems;
+using AncientForge.Inventory;
 using AncientForge.Machines;
 using AncientForge.Quests;
 using UnityEngine;
@@ -10,16 +11,19 @@ namespace AncientForge
 		[SerializeField] private InventoryBase  inventoryBase;
 		[SerializeField] private QuestManager   questManager;
 		[SerializeField] private MachineManager machineManager;
+		[SerializeField] private BonusManager   bonusManager;
 
 		public InventoryBase  Inventory      => inventoryBase;
 		public QuestManager   QuestManager   => questManager;
 		public MachineManager MachineManager => machineManager;
+		public BonusManager   BonusManager   => bonusManager;
 
 		private void Start( )
 		{
 			inventoryBase.Initialize( );
 			questManager.Initialize( );
 			machineManager.Initialize( this );
+			bonusManager.Initialize( inventoryBase.InventoryContent );
 
 			questManager.OnQuestCompleted         += OnQuestCompletedHandler;
 			machineManager.Machines.OnItemCrafted += OnItemCraftedHandler;

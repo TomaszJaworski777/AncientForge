@@ -29,8 +29,8 @@ namespace AncientForge.Machines
 				machineList.Add( newMachine );
 			}
 
-			Machines = new( machineList );
-			_player   = player;
+			Machines = new( machineList, player );
+			_player  = player;
 
 			_player.Inventory.DisplayEvents.OnItemPressed += OnPlayerItemPass;
 			_machineDisplay.OnItemPressed                 += OnMachineItemPress;

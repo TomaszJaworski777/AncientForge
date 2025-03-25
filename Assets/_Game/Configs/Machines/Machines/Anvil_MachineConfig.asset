@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Forges Steel Ingot from Iron Ingot and Fire Shard
   unlockQuests: []
   uiPrefab: {fileID: 6706159427702439170, guid: d187055cebab0ee449d4963da1a4167c, type: 3}
-  buttonPrefab: {fileID: 8329326571163730466, guid: 2f9c6544d047327478f98571ac35a5e9, type: 3}
+  buttonPrefab: {fileID: 8979637967535739000, guid: 2f9c6544d047327478f98571ac35a5e9, type: 3}
   recipes:
   - {fileID: 11400000, guid: 53ea0052eab2bcb45a6a06a4a68a77fa, type: 2}
   - {fileID: 11400000, guid: 08ecfcaacfd88874bb3f2013e904341d, type: 2}

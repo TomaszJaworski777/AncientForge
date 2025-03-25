@@ -12,6 +12,7 @@ namespace AncientForge.Machines
 	{
 		private readonly List<Machine> _machines;
 		private          Machine       _currentMachine;
+		private          Player        _player;
 
 		public Machine CurrentMachine {
 			get => _currentMachine;
@@ -42,9 +43,10 @@ namespace AncientForge.Machines
 		public Action<Machine>                      OnJobFinished          { get; set; }
 		public Action<Machine, InventoryItemConfig> OnItemCrafted          { get; set; }
 
-		public Machines( List<Machine> machineList )
+		public Machines( List<Machine> machineList, Player player )
 		{
 			_machines = machineList;
+			_player   = player;
 		}
 
 		public void OnQuestComplete( QuestConfig questConfig )
@@ -90,7 +92,7 @@ namespace AncientForge.Machines
 			if ( !_currentMachine.UpdateRecipe( ) )
 				return;
 
-			_currentMachine.CalculateJobParameters( );
+			_currentMachine.CalculateJobParameters( _player.BonusManager );
 			OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
 		}
 
@@ -99,7 +101,7 @@ namespace AncientForge.Machines
 			if ( !_currentMachine.UpdateRecipe( ) )
 				return;
 
-			_currentMachine.CalculateJobParameters( );
+			_currentMachine.CalculateJobParameters( _player.BonusManager );
 			OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
 		}
 

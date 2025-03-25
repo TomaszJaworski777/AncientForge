@@ -30,6 +30,7 @@ namespace AncientForge.Inventory
 
 			RegisterEvents();
 			InitializeStartResources( );
+			InitializeBonusItems( );
 		}
 		
 		public void Initialize( InventoryContent inventoryContent )
@@ -70,6 +71,16 @@ namespace AncientForge.Inventory
 					if ( !InventoryContent.TryAddItem( startResource.itemConfig, out _ ) )
 						break;
 				}
+			}
+		}
+		
+		private void InitializeBonusItems( )
+		{
+			foreach ( var bonusItem in inventorySettings.bonusItems ) {
+				if( Random.Range( 0.001f, 1f ) > bonusItem.dropChance )
+					continue;
+
+				InventoryContent.TryAddItem( bonusItem.itemConfig, out _ );
 			}
 		}
 		

@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Converts Iron Ore into Iron Ingot
   unlockQuests: []
   uiPrefab: {fileID: 6706159427702439170, guid: 7bac5815705a8fb4eb890f221c8bd59a, type: 3}
-  buttonPrefab: {fileID: 8329326571163730466, guid: 2f9c6544d047327478f98571ac35a5e9, type: 3}
+  buttonPrefab: {fileID: 8979637967535739000, guid: 2f9c6544d047327478f98571ac35a5e9, type: 3}
   recipes:
   - {fileID: 11400000, guid: 799f91c4e79f0db4e8b558fd610bb8c6, type: 2}
   - {fileID: 11400000, guid: 2b0763a7b79d06b4f957e955caac9931, type: 2}

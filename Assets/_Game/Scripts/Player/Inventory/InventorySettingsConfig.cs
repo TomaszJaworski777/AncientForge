@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AncientForge.BonusItems;
 using UnityEngine;
 
 namespace AncientForge.Inventory
@@ -7,7 +8,7 @@ namespace AncientForge.Inventory
 	public class InventorySettingsConfig : ScriptableObject
 	{
 		public bool allowStacking;
-		
+
 		[System.Serializable]
 		public struct StartResource
 		{
@@ -15,6 +16,15 @@ namespace AncientForge.Inventory
 			public Vector2Int          quantityRange;
 		}
 
-		public List<StartResource> startingResources = new();
+		public List<StartResource> startingResources = new( );
+
+		[System.Serializable]
+		public struct BonusItem
+		{
+			public BonusItemConfig itemConfig;
+			public float           dropChance;
+		}
+
+		public List<BonusItem> bonusItems = new( );
 	}
 }

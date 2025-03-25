@@ -24,3 +24,8 @@ MonoBehaviour:
     quantityRange: {x: 0, y: 2}
   - itemConfig: {fileID: 11400000, guid: b25d3dace2720a3489b8759842673dd2, type: 2}
     quantityRange: {x: 0, y: 1}
+  bonusItems:
+  - itemConfig: {fileID: 11400000, guid: 21b0bf7d8fbd16c40be3f601d33581c2, type: 2}
+    dropChance: 0.25
+  - itemConfig: {fileID: 11400000, guid: d4466664da356a847bcc6bcd41352d2a, type: 2}
+    dropChance: 0.25

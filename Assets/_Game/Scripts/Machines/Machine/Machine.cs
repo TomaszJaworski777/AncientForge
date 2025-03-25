@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AncientForge.BonusItems;
 using AncientForge.Recipes;
 using AncientForge.Inventory;
 using AncientForge.Quests;
+using UnityEngine;
 
 namespace AncientForge.Machines
 {
@@ -35,11 +37,11 @@ namespace AncientForge.Machines
 			if ( !MachineConfig.unlockQuests.Contains( questConfig ) )
 				return false;
 
-			if ( --UnlockStage != 0 ) 
+			if ( --UnlockStage != 0 )
 				return false;
-			
+
 			IsUnlocked = true;
-			
+
 			return true;
 		}
 
@@ -69,13 +71,15 @@ namespace AncientForge.Machines
 			return true;
 		}
 
-		public void CalculateJobParameters( )
+		public void CalculateJobParameters( BonusManager bonusManager )
 		{
 			if ( MatchingRecipe == null )
 				return;
 
-			WorkDuration  = MatchingRecipe.duration;
-			SuccessChance = MatchingRecipe.successChance;
+			WorkDuration = Mathf.Max( MatchingRecipe.duration
+			                        - bonusManager.GetBonusPower( BonusItemConfig.BonusEffectType.DURATION ), 0 );
+			SuccessChance = Mathf.Min( MatchingRecipe.successChance
+			                         + bonusManager.GetBonusPower( BonusItemConfig.BonusEffectType.SUCCESS_CHANCE ), 1 );
 		}
 
 		public void StartJob( )
@@ -88,8 +92,8 @@ namespace AncientForge.Machines
 
 		public void JobComplete( )
 		{
-			IsWorking      = false;
-			Progress       = 0;
+			IsWorking = false;
+			Progress  = 0;
 
 			WorkDuration  = 0;
 			SuccessChance = 0;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AncientForge.BonusItems;
 using UnityEngine;
 
 namespace AncientForge.Inventory
@@ -38,6 +39,9 @@ namespace AncientForge.Inventory
 			var itemStack = _inventoryBase.InventoryContent.GetItemStack( slotIndex );
 
 			if ( itemStack.IsEmpty )
+				return;
+
+			if ( itemStack.Item.ItemConfig is BonusItemConfig )
 				return;
 
 			DisplayEvents.OnItemPressed?.Invoke( _inventoryBase.InventoryContent, itemStack.Item, slotIndex );
