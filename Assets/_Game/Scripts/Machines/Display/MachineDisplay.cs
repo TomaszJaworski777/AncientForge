@@ -23,7 +23,13 @@ namespace AncientForge.Machines
 			var machineButton = Instantiate( machine.MachineConfig.buttonPrefab, buttonListParent );
 			if ( _machines.TryAdd( machine.MachineConfig, machineButton ) ) {
 				machineButton.Initialize( machine );
-				machineButton.OnClick += ( ) => _machineManager.SelectMachine( machine );
+				machineButton.OnClick += ( ) => {
+					if ( !machine.IsUnlocked )
+						return;
+
+					_machineManager.SelectMachine( machine );
+				};
+				
 				return;
 			}
 

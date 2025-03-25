@@ -290,7 +290,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 100}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6913233621534867869
 MonoBehaviour:
@@ -307,6 +307,7 @@ MonoBehaviour:
   nameText: {fileID: 1277750706316926923}
   fill: {fileID: 7036046475981498804}
   lockObject: {fileID: 543752361240235180}
+  selectableObject: {fileID: 1681815954747194452}
 --- !u!114 &1681815954747194452
 MonoBehaviour:
   m_ObjectHideFlags: 0
