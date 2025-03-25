@@ -12,7 +12,7 @@ namespace AncientForge.BonusItems
 
 		private InventoryContent   _inventoryContent;
 		private BonusPowersDisplay _bonusPowersDisplay;
-
+		
 		public void Initialize( InventoryContent content )
 		{
 			_bonusPowersDisplay = GetComponent<BonusPowersDisplay>( );
@@ -31,7 +31,7 @@ namespace AncientForge.BonusItems
 			_inventoryContent.OnItemAdded   -= OnItemAdded;
 			_inventoryContent.OnItemRemoved -= OnItemRemoved;
 		}
-
+		
 		public float GetBonusPower( BonusItemConfig.BonusEffectType type )
 		{
 			if ( !_bonusItems.TryGetValue( type, out var bonusItems ) )

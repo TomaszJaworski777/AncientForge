@@ -12,6 +12,7 @@ namespace AncientForge.BonusItems
 			SUCCESS_CHANCE,
 		}
 
+		[Header("Bonus Effect")]
 		public BonusEffectType bonusEffectType;
 		public float           bonusEffectPower;
 	}

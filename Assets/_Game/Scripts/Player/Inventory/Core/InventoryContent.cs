@@ -14,12 +14,7 @@ namespace AncientForge.Inventory
 		public List<InventoryItemStack> Items => ItemStacks.Where( itemStack => !itemStack.IsEmpty ).ToList();
 		
 		public bool IsFull => ItemStacks.All( itemStack => itemStack.IsFull );
-
-		/// <summary>
-		/// Initialize with empty item stacks.
-		/// </summary>
-		/// <param name="inventorySize">Size of the inventory.</param>
-		/// <param name="allowStacking">Defines if items can stack in this inventory.</param>
+		
 		public InventoryContent( int inventorySize, bool allowStacking )
 		{
 			ItemStacks = new( inventorySize );
