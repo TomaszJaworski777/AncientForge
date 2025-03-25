@@ -61,9 +61,9 @@ namespace AncientForge.Machines
 			OnItemPressed?.Invoke(content, item, slotIndex);
 		}
 		
-		public void OnJobStateChange( Machine machine )
+		public void OnJobStateChange( Machine machine, bool currentMachine )
 		{
-			if(_currentMachineWidget == null)
+			if(_currentMachineWidget == null || !currentMachine)
 				return;
 			
 			_currentMachineWidget.OnJobStateChange( machine );

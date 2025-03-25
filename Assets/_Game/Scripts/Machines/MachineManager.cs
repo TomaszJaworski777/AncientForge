@@ -97,12 +97,12 @@ namespace AncientForge.Machines
 
 		private void OnCurrentRecipeChange( RecipeConfig recipeConfig )
 		{
-			_machineDisplay.OnJobStateChange( Machines.CurrentMachine );
+			_machineDisplay.OnJobStateChange( Machines.CurrentMachine, true );
 		}
 
 		private void OnJobStarted( Machine machine )
 		{
-			_machineDisplay.OnJobStateChange( machine );
+			_machineDisplay.OnJobStateChange( machine, Machines.CurrentMachine == machine );
 		}
 
 		private void OnJobProgress( Machine machine )
@@ -112,7 +112,7 @@ namespace AncientForge.Machines
 
 		private void OnJobFinished( Machine machine )
 		{
-			_machineDisplay.OnJobStateChange( machine );
+			_machineDisplay.OnJobStateChange( machine, Machines.CurrentMachine == machine );
 		}
 
 		private void OnItemCrafted( Machine machine, InventoryItemConfig itemConfig )

@@ -45,12 +45,14 @@ namespace AncientForge.Machines
 		public void OnJobStateChange( Machine machine )
 		{
 			ActivateForgeUI( machine?.MatchingRecipe != null && !machine.IsWorking );
-
+			resultIcon.color = machine?.MatchingRecipe != null ? new( 1, 1, 1, 1 ) : new( 0, 0, 0, 0 );
+			
 			if ( machine?.MatchingRecipe  == null )
 				return;
 
 			durationText.text      = string.Format( _durationFormat, machine.WorkDuration );
 			successChanceText.text = string.Format( _successChanceFormat, Mathf.RoundToInt( machine.SuccessChance * 100f ) );
+			resultIcon.sprite      = machine.MatchingRecipe.product.icon;
 		}
 
 		public void OnJobProgress( Machine machine )
@@ -63,7 +65,7 @@ namespace AncientForge.Machines
 			forgeButtonSelectableObject.enabled = state;
 			forgeButtonCanvasGroup.enabled      = !state;
 			durationText.gameObject.SetActive( state );
-			successChanceText.gameObject.SetActive( state );
+			successChanceText.gameObject.SetActive( state ); ;
 		}
 	}
 }
