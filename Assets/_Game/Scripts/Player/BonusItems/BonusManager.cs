@@ -46,6 +46,10 @@ namespace AncientForge.BonusItems
 				return;
 
 			_bonusItems.TryAdd( bonusItemConfig.bonusEffectType, new( ) );
+			
+			if(_bonusItems[bonusItemConfig.bonusEffectType].Contains(item))
+				return;
+				
 			_bonusItems[bonusItemConfig.bonusEffectType].Add( item );
 
 			_bonusPowersDisplay.OnItemAdded( bonusItemConfig );
