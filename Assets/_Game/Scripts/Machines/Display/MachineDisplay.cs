@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,5 +1,4 @@
-﻿using _Game.Scripts.Recipes;
-using AncientForge.Inventory;
+﻿using AncientForge.Inventory;
 using AncientForge.Selection;
 using AncientForge.ScaleFill;
 using TMPro;

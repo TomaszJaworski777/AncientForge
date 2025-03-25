@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using _Game.Scripts.Recipes;
+using AncientForge.Recipes;
 using AncientForge.Quests;
 using UnityEngine;
 

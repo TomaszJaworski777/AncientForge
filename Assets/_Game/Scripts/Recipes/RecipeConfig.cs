@@ -2,7 +2,7 @@
 using AncientForge.Inventory;
 using UnityEngine;
 
-namespace _Game.Scripts.Recipes
+namespace AncientForge.Recipes
 {
 	[CreateAssetMenu( fileName = "New_Recipe", menuName = "Config/Recipe", order = 0 )]
 	public class RecipeConfig : ScriptableObject

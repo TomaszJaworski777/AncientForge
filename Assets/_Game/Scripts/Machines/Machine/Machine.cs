@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Game.Scripts.Recipes;
+using AncientForge.Recipes;
 using AncientForge.Inventory;
 using AncientForge.Quests;
 
