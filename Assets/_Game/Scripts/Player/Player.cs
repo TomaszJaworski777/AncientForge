@@ -25,21 +25,28 @@ namespace AncientForge
 			machineManager.Initialize( this );
 			bonusManager.Initialize( inventoryBase.InventoryContent );
 
+			questManager.OnAllQuestCompleted      += OnAllQuestCompleted;
 			questManager.OnQuestCompleted         += OnQuestCompletedHandler;
 			machineManager.Machines.OnItemCrafted += OnItemCraftedHandler;
 		}
-
+		
 		private void OnDestroy( )
 		{
+			questManager.OnAllQuestCompleted      -= OnAllQuestCompleted;
 			questManager.OnQuestCompleted         -= OnQuestCompletedHandler;
 			machineManager.Machines.OnItemCrafted -= OnItemCraftedHandler;
 		}
 
+		private void OnAllQuestCompleted( InventoryItemConfig rewardItemConfig )
+		{
+			inventoryBase.InventoryContent.TryAddItem( rewardItemConfig, out _ );
+		}
+		
 		private void OnQuestCompletedHandler( QuestInProgress questInProgress )
 		{
 			machineManager.OnQuestComplete( questInProgress.QuestConfig );
 		}
-
+		
 		private void OnItemCraftedHandler( Machine machine, InventoryItemConfig itemConfig )
 		{
 			questManager.OnItemCrafted( itemConfig );

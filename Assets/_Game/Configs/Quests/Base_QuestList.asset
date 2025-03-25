@@ -15,3 +15,6 @@ MonoBehaviour:
   startQuests:
   - {fileID: 11400000, guid: 99081dc4a996c914e9d996d613e0c676, type: 2}
   - {fileID: 11400000, guid: 86ac592293b00e240b17b31a0018654f, type: 2}
+  finishQuestRewardPool:
+  - {fileID: 11400000, guid: 21b0bf7d8fbd16c40be3f601d33581c2, type: 2}
+  - {fileID: 11400000, guid: d4466664da356a847bcc6bcd41352d2a, type: 2}
