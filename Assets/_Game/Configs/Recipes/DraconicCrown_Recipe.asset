@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f972a7f39a640a7a458534ac91e7bce, type: 3}
+  m_Name: DraconicCrown_Recipe
+  m_EditorClassIdentifier: 
+  ingredients:
+  - {fileID: 11400000, guid: b4e7972fef1ef9f4fb146ed2867b0c3a, type: 2}
+  - {fileID: 11400000, guid: b25d3dace2720a3489b8759842673dd2, type: 2}
+  product: {fileID: 11400000, guid: c6c1e37ef30d820439539aa739c2342d, type: 2}
+  duration: 7
+  successChance: 0.7

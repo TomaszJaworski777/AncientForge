@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _Game.Scripts.Recipes;
 using AncientForge.Quests;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace AncientForge.Machines
 		public MachineWidget uiPrefab;
 		public MachineButton buttonPrefab;
 
-		//TODO: list of available recipes
+		[Header( "Recipes" )]
+		public List<RecipeConfig> recipes;
 	}
 }
