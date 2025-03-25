@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 279b58f92e4145a2ba0012b16bbea1eb, type: 3}
-  m_Name: Base_MachineListConfig
+  m_Script: {fileID: 11500000, guid: ad93846ca9504079a4077e215bd0f1a9, type: 3}
+  m_Name: Machine_InventorySettingsConfig
   m_EditorClassIdentifier: 
-  machines:
-  - {fileID: 11400000, guid: b760190daf363cd4ab9d0c391285dd43, type: 2}
-  - {fileID: 11400000, guid: 23013fb5c12de1b41855afbc0244cb2e, type: 2}
+  allowStacking: 0
+  startingResources: []

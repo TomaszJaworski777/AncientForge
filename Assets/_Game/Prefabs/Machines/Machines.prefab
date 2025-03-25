@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3fc1584f64941c08f2cb16fdfdb6597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  machineList: {fileID: 11400000, guid: ad645aa29bb87bd4c868775c231052a7, type: 2}
+  machineListConfig: {fileID: 11400000, guid: ad645aa29bb87bd4c868775c231052a7, type: 2}
 --- !u!114 &6173898213890978713
 MonoBehaviour:
   m_ObjectHideFlags: 0

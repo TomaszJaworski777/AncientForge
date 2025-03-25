@@ -19,9 +19,10 @@ namespace AncientForge
 		public Action<InventoryItem>   OnItemCrafted    { get; set; }
 		public Action<QuestInProgress> OnQuestCompleted { get; set; }
 
-		private void Awake( )
+		private void Start( )
 		{
 			questManager.Initialize( this );
+			machineManager.Initialize( this );
 		}
 
 		private void OnEnable( )

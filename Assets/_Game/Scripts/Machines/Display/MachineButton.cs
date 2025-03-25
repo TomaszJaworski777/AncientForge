@@ -1,9 +1,38 @@
-﻿using UnityEngine;
+﻿using System;
+using AncientForge.WidthFill;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace AncientForge.Machines
 {
-	public class MachineButton : MonoBehaviour
+	public class MachineButton : MonoBehaviour, IPointerClickHandler
 	{
-		
+		[SerializeField] private TMP_Text       nameText;
+		[SerializeField] private ImageWidthFill fill;
+		[SerializeField] private GameObject     lockObject;
+
+		public Action OnClick { get; set; }
+
+		public void Initialize( Machine machine )
+		{
+			nameText.text = machine.MachineConfig.machineName;
+			lockObject.SetActive( !machine.IsUnlocked );
+		}
+
+		public void UpdateProgress( Machine machine )
+		{
+			fill.FillAmount = !machine.IsWorking ? 0 : machine.Progress / machine.WorkDuration;
+		}
+
+		public void Unlock( )
+		{
+			lockObject.SetActive(false);
+		}
+
+		public void OnPointerClick( PointerEventData eventData )
+		{
+			OnClick?.Invoke();
+		}
 	}
 }

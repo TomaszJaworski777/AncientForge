@@ -35,7 +35,11 @@ namespace AncientForge.Quests
 		{
 			var widget = Instantiate( questWidgetPrefab, contentParent );
 			widget.Initialize( quest );
-			_questWidgets.Add( quest, widget );
+
+			if ( _questWidgets.TryAdd( quest, widget ) )
+				return;
+
+			Destroy( widget.gameObject );
 		}
 
 		private void OnQuestProgress( QuestInProgress quest )

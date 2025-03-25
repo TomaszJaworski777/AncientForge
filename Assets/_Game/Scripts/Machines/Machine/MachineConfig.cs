@@ -1,4 +1,5 @@
-﻿using AncientForge.Quests;
+﻿using System.Collections.Generic;
+using AncientForge.Quests;
 using UnityEngine;
 
 namespace AncientForge.Machines
@@ -7,9 +8,9 @@ namespace AncientForge.Machines
 	public class MachineConfig : ScriptableObject
 	{
 		[Header( "Settings" )]
-		public string      machineName;
-		public string      description;
-		public QuestConfig unlockQuest;
+		public string            machineName;
+		public string            description;
+		public List<QuestConfig> unlockQuests = new();
 
 		[Header( "Prefabs" )]
 		public MachineWidget uiPrefab;
