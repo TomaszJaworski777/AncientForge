@@ -35,8 +35,18 @@ namespace AncientForge.Machines
 			_machineDisplay.OnItemPressed                 += OnMachineItemPress;
 			_machines.OnCurrentMachineChange              += OnCurrentMachineChange;
 			_machines.OnCurrentRecipeChange               += OnCurrentRecipeChange;
+			_machines.OnJobStarted                        += OnJobStarted;
 
 			SelectMachine( machineList.First( ) );
+		}
+
+		private void OnDestroy( )
+		{
+			_player.Inventory.DisplayEvents.OnItemPressed -= OnPlayerItemPass;
+			_machineDisplay.OnItemPressed                 -= OnMachineItemPress;
+			_machines.OnCurrentMachineChange              -= OnCurrentMachineChange;
+			_machines.OnCurrentRecipeChange               -= OnCurrentRecipeChange;
+			_machines.OnJobStarted                        -= OnJobStarted;
 		}
 
 		public bool SelectMachine( Machine machine ) => _machines.SelectCurrentMachine( machine, _player );
@@ -44,21 +54,21 @@ namespace AncientForge.Machines
 		private void OnCurrentMachineChange( Machine oldMachine, Machine newMachine )
 		{
 			var inventory = _machineDisplay.SelectMachine( newMachine, _machines );
-			newMachine.Inventory      = inventory.InventoryContent;
+			newMachine.Inventory = inventory.InventoryContent;
 		}
 
-		private void OnPlayerItemPass( InventoryItem item, Action callback )
+		private void OnPlayerItemPass( InventoryContent content, InventoryItem item, int slotIndex )
 		{
 			if ( item == null )
 				return;
 
-			if ( !_machineDisplay.CurrentMachineInventoryBase.TryAddItem( item) )
+			if ( !_machines.CurrentMachine.Inventory.TryAddItem( item, out _ ) )
 				return;
-			
-			callback?.Invoke( );
+
+			content.TryRemoveItem( slotIndex, out _ );
 		}
 
-		private void OnMachineItemPress( InventoryItem item, Action callback )
+		private void OnMachineItemPress( InventoryContent content, InventoryItem item, int slotIndex )
 		{
 			if ( item == null )
 				return;
@@ -66,15 +76,20 @@ namespace AncientForge.Machines
 			if ( _machines.CurrentMachine.IsWorking )
 				return;
 
-			if ( !_player.Inventory.TryAddItem( item ) )
+			if ( !_player.Inventory.InventoryContent.TryAddItem( item, out _ ) )
 				return;
 
-			callback?.Invoke( );
+			content.TryRemoveItem( slotIndex, out _ );
 		}
 
 		private void OnCurrentRecipeChange( RecipeConfig recipeConfig )
 		{
-			_machineDisplay.OnRecipeChange( _machines.CurrentMachine, recipeConfig );
+			_machineDisplay.OnJobStateChange( _machines.CurrentMachine );
+		}
+
+		private void OnJobStarted( Machine machine )
+		{
+			_machineDisplay.OnJobStateChange( machine );
 		}
 
 		private void Update( )

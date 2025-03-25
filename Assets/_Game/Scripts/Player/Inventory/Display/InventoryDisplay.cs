@@ -8,7 +8,7 @@ namespace AncientForge.Inventory
 	{
 		public class Events
 		{
-			public Action<InventoryItem, Action> OnItemPressed { get; set; }
+			public Action<InventoryContent, InventoryItem, int> OnItemPressed { get; set; }
 		}
 
 		private List<InventorySlot> _slots = new( );
@@ -40,10 +40,7 @@ namespace AncientForge.Inventory
 			if ( itemStack.IsEmpty )
 				return;
 
-			DisplayEvents.OnItemPressed?.Invoke( itemStack.Item, ( ) => {
-				if ( !_inventoryBase.TryRemoveItem( slotIndex, out _ ) )
-					Debug.LogError( "Trying to take out item from empty inventory slot" );
-			} );
+			DisplayEvents.OnItemPressed?.Invoke( _inventoryBase.InventoryContent, itemStack.Item, slotIndex );
 		}
 
 		private void OnValidate( )

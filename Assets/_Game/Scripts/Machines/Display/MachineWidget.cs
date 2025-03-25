@@ -37,16 +37,16 @@ namespace AncientForge.Machines
 			_durationFormat      = durationText.text;
 			_successChanceFormat = successChanceText.text;
 
-			OnRecipeChange( null, null );
+			OnJobStateChange( null );
 
 			forgeButton.onClick.AddListener( machines.StartJob );
 		}
 
-		public void OnRecipeChange( Machine machine, RecipeConfig recipeConfig )
+		public void OnJobStateChange( Machine machine )
 		{
-			ActivateForgeUI( recipeConfig != null && !machine.IsWorking );
+			ActivateForgeUI( machine?.MatchingRecipe != null && !machine.IsWorking );
 
-			if ( recipeConfig == null )
+			if ( machine?.MatchingRecipe  == null )
 				return;
 
 			durationText.text      = string.Format( _durationFormat, machine.WorkDuration );

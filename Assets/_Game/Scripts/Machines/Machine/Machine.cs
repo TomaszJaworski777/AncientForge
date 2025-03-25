@@ -3,7 +3,6 @@ using System.Linq;
 using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
 using AncientForge.Quests;
-using UnityEngine;
 
 namespace AncientForge.Machines
 {

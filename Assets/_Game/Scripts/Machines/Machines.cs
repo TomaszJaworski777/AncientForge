@@ -72,7 +72,7 @@ namespace AncientForge.Machines
 					if ( !CurrentMachine.Inventory.TryRemoveItem( slotIndex, out var item ) )
 						continue;
 
-					player.Inventory.TryAddItem( item );
+					player.Inventory.InventoryContent.TryAddItem( item, out _ );
 				}
 			}
 		}
@@ -86,7 +86,7 @@ namespace AncientForge.Machines
 			OnJobStarted?.Invoke( CurrentMachine );
 		}
 
-		private void OnItemAdded( InventoryItem item )
+		private void OnItemAdded( InventoryItem item, int slotIndex )
 		{
 			if ( !_currentMachine.UpdateRecipe( ) )
 				return;
@@ -94,7 +94,7 @@ namespace AncientForge.Machines
 			OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
 		}
 
-		private void OnItemRemoved( InventoryItem item )
+		private void OnItemRemoved( InventoryItem item, int slotIndex )
 		{
 			if ( !_currentMachine.UpdateRecipe( ) )
 				return;

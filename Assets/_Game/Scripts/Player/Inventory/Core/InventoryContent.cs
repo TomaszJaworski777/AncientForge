@@ -8,8 +8,8 @@ namespace AncientForge.Inventory
 	{
 		public List<InventoryItemStack> ItemStacks { get; }
 		
-		public Action<InventoryItem> OnItemAdded   { get; set; }
-		public Action<InventoryItem> OnItemRemoved { get; set; }
+		public Action<InventoryItem, int> OnItemAdded   { get; set; }
+		public Action<InventoryItem, int> OnItemRemoved { get; set; }
 		
 		public List<InventoryItemStack> Items => ItemStacks.Where( itemStack => !itemStack.IsEmpty ).ToList();
 		
@@ -57,7 +57,7 @@ namespace AncientForge.Inventory
 			if ( !ItemStacks[slotIndex].TryAdd( item ) )
 				return false;	
 			
-			OnItemAdded?.Invoke( item );
+			OnItemAdded?.Invoke( item, slotIndex );
 			return true;
 		}
 
@@ -77,7 +77,7 @@ namespace AncientForge.Inventory
 			if ( !itemStack.TryRemove( ) )
 				return false;
 			
-			OnItemRemoved?.Invoke( item );
+			OnItemRemoved?.Invoke( item, slotIndex );
 			return true;
 		}
 

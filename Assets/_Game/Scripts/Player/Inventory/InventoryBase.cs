@@ -28,6 +28,7 @@ namespace AncientForge.Inventory
 
 			InventoryContent = new( _display.SlotCount, inventorySettings.allowStacking );
 
+			RegisterEvents();
 			InitializeStartResources( );
 		}
 		
@@ -41,6 +42,20 @@ namespace AncientForge.Inventory
 			for ( var slotIndex = 0; slotIndex < InventoryContent.ItemStacks.Count; slotIndex++ ) {
 				_display.UpdateDisplay( slotIndex, InventoryContent.GetItemStack( slotIndex ) );
 			}
+			
+			RegisterEvents();
+		}
+
+		private void RegisterEvents( )
+		{
+			InventoryContent.OnItemAdded   += OnItemAdded;
+			InventoryContent.OnItemRemoved += OnItemRemoved;
+		}
+		
+		private void OnDestroy( )
+		{
+			InventoryContent.OnItemAdded   -= OnItemAdded;
+			InventoryContent.OnItemRemoved -= OnItemRemoved;
 		}
 
 		private void InitializeStartResources( )
@@ -52,30 +67,20 @@ namespace AncientForge.Inventory
 					: Random.Range( startResource.quantityRange.x, startResource.quantityRange.y + 1 );
 
 				for ( var i = 0; i < resourceCount; i++ ) {
-					if ( !TryAddItem( startResource.itemConfig ) )
+					if ( !InventoryContent.TryAddItem( startResource.itemConfig, out _ ) )
 						break;
 				}
 			}
 		}
-
-		public bool TryAddItem( InventoryItemConfig itemConfig ) => TryAddItem( new InventoryItem( itemConfig ) );
-
-		public bool TryAddItem( InventoryItem item )
+		
+		private void OnItemAdded( InventoryItem item, int slotIndex )
 		{
-			if ( !InventoryContent.TryAddItem( item, out var slotIndex ) )
-				return false;
-			
 			_display.UpdateDisplay( slotIndex, InventoryContent.GetItemStack( slotIndex ) );
-			return true;
 		}
 		
-		public bool TryRemoveItem( int slotIndex, out InventoryItem item )
+		private void OnItemRemoved( InventoryItem item, int slotIndex  )
 		{
-			if ( !InventoryContent.TryRemoveItem( slotIndex, out item ) )
-				return false;
-			
 			_display.UpdateDisplay( slotIndex, InventoryContent.GetItemStack( slotIndex ) );
-			return true;
 		}
 	}
 }

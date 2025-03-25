@@ -14,10 +14,8 @@ namespace AncientForge.Machines
 		private          MachineManager                           _machineManager;
 		private readonly Dictionary<MachineConfig, MachineButton> _machines = new( );
 		private          MachineWidget                            _currentMachineWidget;
-		
-		public InventoryBase CurrentMachineInventoryBase => _currentMachineWidget?.MachineInventory;
 
-		public Action<InventoryItem, Action> OnItemPressed { get; set; }
+		public Action<InventoryContent, InventoryItem, int> OnItemPressed { get; set; }
 
 		private void Awake( )
 		{
@@ -57,17 +55,17 @@ namespace AncientForge.Machines
 			return _currentMachineWidget.MachineInventory;
 		}
 
-		private void OnInventoryItemPress( InventoryItem item, Action callback )
+		private void OnInventoryItemPress( InventoryContent content, InventoryItem item, int slotIndex )
 		{
-			OnItemPressed?.Invoke(item, callback);
+			OnItemPressed?.Invoke(content, item, slotIndex);
 		}
 		
-		public void OnRecipeChange( Machine machine, RecipeConfig recipeConfig )
+		public void OnJobStateChange( Machine machine )
 		{
 			if(_currentMachineWidget == null)
 				return;
 			
-			_currentMachineWidget.OnRecipeChange( machine, recipeConfig );
+			_currentMachineWidget.OnJobStateChange( machine );
 		}
 	}
 }
