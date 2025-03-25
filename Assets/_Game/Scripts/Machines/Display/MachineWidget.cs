@@ -24,7 +24,7 @@ namespace AncientForge.Machines
 
 		public InventoryBase MachineInventory => inventoryBase;
 
-		public void Initialize( Machine machine, Machines machines )
+		public Button Initialize( Machine machine )
 		{
 			if ( machine.Inventory == null )
 				inventoryBase.Initialize( );
@@ -39,7 +39,7 @@ namespace AncientForge.Machines
 
 			OnJobStateChange( null );
 
-			forgeButton.onClick.AddListener( machines.StartJob );
+			return forgeButton;
 		}
 
 		public void OnJobStateChange( Machine machine )
@@ -50,9 +50,14 @@ namespace AncientForge.Machines
 				return;
 
 			durationText.text      = string.Format( _durationFormat, machine.WorkDuration );
-			successChanceText.text = string.Format( _durationFormat, Mathf.RoundToInt( machine.SuccessChance * 100f ) );
+			successChanceText.text = string.Format( _successChanceFormat, Mathf.RoundToInt( machine.SuccessChance * 100f ) );
 		}
 
+		public void OnJobProgress( Machine machine )
+		{
+			
+		}
+		
 		private void ActivateForgeUI( bool state )
 		{
 			forgeButtonSelectableObject.enabled = state;

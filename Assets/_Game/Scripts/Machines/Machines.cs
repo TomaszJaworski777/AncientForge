@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
+using AncientForge.Quests;
+using Random = UnityEngine.Random;
 
 namespace AncientForge.Machines
 {
@@ -32,16 +34,25 @@ namespace AncientForge.Machines
 			}
 		}
 
-		public Action<Machine, Machine> OnCurrentMachineChange { get; set; }
-		public Action<RecipeConfig>     OnCurrentRecipeChange  { get; set; }
-		public Action<Machine>          OnJobStarted           { get; set; }
-		public Action<Machine>          OnJobProgress          { get; set; }
-		public Action<Machine>          OnJobFinished          { get; set; }
-		public Action<InventoryItem>    OnItemCrafted          { get; set; }
+		public Action<Machine>                      OnMachineUnlocked      { get; set; }
+		public Action<Machine, Machine>             OnCurrentMachineChange { get; set; }
+		public Action<RecipeConfig>                 OnCurrentRecipeChange  { get; set; }
+		public Action<Machine>                      OnJobStarted           { get; set; }
+		public Action<Machine>                      OnJobProgress          { get; set; }
+		public Action<Machine>                      OnJobFinished          { get; set; }
+		public Action<Machine, InventoryItemConfig> OnItemCrafted          { get; set; }
 
 		public Machines( List<Machine> machineList )
 		{
 			_machines = machineList;
+		}
+
+		public void OnQuestComplete( QuestConfig questConfig )
+		{
+			foreach ( var machine in _machines.Where( machine => !machine.IsUnlocked ) ) {
+				if ( machine.CheckForUnlock( questConfig ) )
+					OnMachineUnlocked?.Invoke( machine );
+			}
 		}
 
 		public bool SelectCurrentMachine( Machine machine, Player player )
@@ -62,19 +73,7 @@ namespace AncientForge.Machines
 			if ( CurrentMachine.IsWorking )
 				return;
 
-			var inventoryItems = CurrentMachine.Inventory.ItemStacks;
-			if ( inventoryItems.Count == 0 )
-				return;
-
-			foreach ( var itemStack in inventoryItems ) {
-				var slotIndex = CurrentMachine.Inventory.GetIndexOfStack( itemStack );
-				for ( var i = 0; i < itemStack.Quantity; i++ ) {
-					if ( !CurrentMachine.Inventory.TryRemoveItem( slotIndex, out var item ) )
-						continue;
-
-					player.Inventory.InventoryContent.TryAddItem( item, out _ );
-				}
-			}
+			CurrentMachine.ClearInventory( ( item, __ ) => player.Inventory.InventoryContent.TryAddItem( item, out _ ) );
 		}
 
 		public void StartJob( )
@@ -91,6 +90,7 @@ namespace AncientForge.Machines
 			if ( !_currentMachine.UpdateRecipe( ) )
 				return;
 
+			_currentMachine.CalculateJobParameters( );
 			OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
 		}
 
@@ -99,6 +99,7 @@ namespace AncientForge.Machines
 			if ( !_currentMachine.UpdateRecipe( ) )
 				return;
 
+			_currentMachine.CalculateJobParameters( );
 			OnCurrentRecipeChange?.Invoke( _currentMachine.MatchingRecipe );
 		}
 
@@ -106,6 +107,19 @@ namespace AncientForge.Machines
 		{
 			foreach ( var machine in _machines.Where( machine => machine.IsWorking ) ) {
 				machine.Progress += tickDuration;
+				OnJobProgress?.Invoke( machine );
+
+				if ( machine.Progress < machine.WorkDuration )
+					continue;
+
+				machine.Progress = 0;
+				OnJobProgress?.Invoke( machine );
+
+				if ( Random.Range( 0.001f, 1f ) <= machine.SuccessChance )
+					OnItemCrafted?.Invoke( machine, machine.MatchingRecipe.product );
+
+				machine.JobComplete( );
+				OnJobFinished?.Invoke( machine );
 			}
 		}
 	}

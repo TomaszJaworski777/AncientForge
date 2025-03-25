@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
@@ -29,16 +30,17 @@ namespace AncientForge.Machines
 			IsUnlocked    = UnlockStage == 0;
 		}
 
-		public void QuestCompleted( QuestConfig questConfig )
+		public bool CheckForUnlock( QuestConfig questConfig )
 		{
 			if ( !MachineConfig.unlockQuests.Contains( questConfig ) )
-				return;
+				return false;
 
-			UnlockStage--;
-
-			if ( UnlockStage == 0 ) {
-				IsUnlocked = true;
-			}
+			if ( --UnlockStage != 0 ) 
+				return false;
+			
+			IsUnlocked = true;
+			
+			return true;
 		}
 
 		public bool UpdateRecipe( )
@@ -47,6 +49,7 @@ namespace AncientForge.Machines
 				if ( recipe.ingredients.Count != Inventory.Items.Count )
 					return false;
 
+				//This odd method allows us to check for duplicate items in recipe
 				var ingredientsCopy = new List<InventoryItemConfig>( recipe.ingredients );
 				foreach ( var itemConfig in Inventory.Items.Select( itemStack => itemStack.Item.ItemConfig ) ) {
 					if ( !ingredientsCopy.Contains( itemConfig ) )
@@ -66,13 +69,45 @@ namespace AncientForge.Machines
 			return true;
 		}
 
+		public void CalculateJobParameters( )
+		{
+			if ( MatchingRecipe == null )
+				return;
+
+			WorkDuration  = MatchingRecipe.duration;
+			SuccessChance = MatchingRecipe.successChance;
+		}
+
 		public void StartJob( )
 		{
 			if ( MatchingRecipe == null )
 				return;
 
-			IsWorking    = true;
-			WorkDuration = MatchingRecipe.duration;
+			IsWorking = true;
+		}
+
+		public void JobComplete( )
+		{
+			IsWorking      = false;
+			Progress       = 0;
+
+			WorkDuration  = 0;
+			SuccessChance = 0;
+
+			ClearInventory( null );
+		}
+
+		public void ClearInventory( Action<InventoryItem, int> callback )
+		{
+			foreach ( var itemStack in Inventory.Items ) {
+				var slotIndex = Inventory.GetIndexOfStack( itemStack );
+				for ( var i = 0; i < itemStack.Quantity; i++ ) {
+					if ( !Inventory.TryRemoveItem( slotIndex, out var item ) )
+						continue;
+
+					callback?.Invoke( item, slotIndex );
+				}
+			}
 		}
 	}
 }

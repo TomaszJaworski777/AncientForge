@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
+using AncientForge.Quests;
 using UnityEngine;
 
 namespace AncientForge.Machines
@@ -13,8 +13,9 @@ namespace AncientForge.Machines
 		[SerializeField] private MachineListConfig machineListConfig;
 
 		private MachineDisplay _machineDisplay;
-		private Machines       _machines;
 		private Player         _player;
+
+		public Machines Machines { get; private set; }
 
 		public void Initialize( Player player )
 		{
@@ -28,14 +29,18 @@ namespace AncientForge.Machines
 				machineList.Add( newMachine );
 			}
 
-			_machines = new( machineList );
+			Machines = new( machineList );
 			_player   = player;
 
 			_player.Inventory.DisplayEvents.OnItemPressed += OnPlayerItemPass;
 			_machineDisplay.OnItemPressed                 += OnMachineItemPress;
-			_machines.OnCurrentMachineChange              += OnCurrentMachineChange;
-			_machines.OnCurrentRecipeChange               += OnCurrentRecipeChange;
-			_machines.OnJobStarted                        += OnJobStarted;
+			Machines.OnCurrentMachineChange              += OnCurrentMachineChange;
+			Machines.OnCurrentRecipeChange               += OnCurrentRecipeChange;
+			Machines.OnJobStarted                        += OnJobStarted;
+			Machines.OnJobProgress                       += OnJobProgress;
+			Machines.OnJobFinished                       += OnJobFinished;
+			Machines.OnItemCrafted                       += OnItemCrafted;
+			Machines.OnMachineUnlocked                   += OnMachineUnlocked;
 
 			SelectMachine( machineList.First( ) );
 		}
@@ -44,17 +49,25 @@ namespace AncientForge.Machines
 		{
 			_player.Inventory.DisplayEvents.OnItemPressed -= OnPlayerItemPass;
 			_machineDisplay.OnItemPressed                 -= OnMachineItemPress;
-			_machines.OnCurrentMachineChange              -= OnCurrentMachineChange;
-			_machines.OnCurrentRecipeChange               -= OnCurrentRecipeChange;
-			_machines.OnJobStarted                        -= OnJobStarted;
+			Machines.OnCurrentMachineChange              -= OnCurrentMachineChange;
+			Machines.OnCurrentRecipeChange               -= OnCurrentRecipeChange;
+			Machines.OnJobStarted                        -= OnJobStarted;
+			Machines.OnJobProgress                       -= OnJobProgress;
+			Machines.OnJobFinished                       -= OnJobFinished;
+			Machines.OnItemCrafted                       -= OnItemCrafted;
+			Machines.OnMachineUnlocked                   -= OnMachineUnlocked;
 		}
 
-		public bool SelectMachine( Machine machine ) => _machines.SelectCurrentMachine( machine, _player );
+		public void OnQuestComplete( QuestConfig questConfig ) => Machines.OnQuestComplete( questConfig );
+
+		public bool SelectMachine( Machine machine ) => Machines.SelectCurrentMachine( machine, _player );
 
 		private void OnCurrentMachineChange( Machine oldMachine, Machine newMachine )
 		{
-			var inventory = _machineDisplay.SelectMachine( newMachine, _machines );
+			( var inventory, var forgeButton ) = _machineDisplay.SelectMachine( newMachine, Machines );
+
 			newMachine.Inventory = inventory.InventoryContent;
+			forgeButton.onClick.AddListener( Machines.StartJob );
 		}
 
 		private void OnPlayerItemPass( InventoryContent content, InventoryItem item, int slotIndex )
@@ -62,7 +75,7 @@ namespace AncientForge.Machines
 			if ( item == null )
 				return;
 
-			if ( !_machines.CurrentMachine.Inventory.TryAddItem( item, out _ ) )
+			if ( !Machines.CurrentMachine.Inventory.TryAddItem( item, out _ ) )
 				return;
 
 			content.TryRemoveItem( slotIndex, out _ );
@@ -73,7 +86,7 @@ namespace AncientForge.Machines
 			if ( item == null )
 				return;
 
-			if ( _machines.CurrentMachine.IsWorking )
+			if ( Machines.CurrentMachine.IsWorking )
 				return;
 
 			if ( !_player.Inventory.InventoryContent.TryAddItem( item, out _ ) )
@@ -84,7 +97,7 @@ namespace AncientForge.Machines
 
 		private void OnCurrentRecipeChange( RecipeConfig recipeConfig )
 		{
-			_machineDisplay.OnJobStateChange( _machines.CurrentMachine );
+			_machineDisplay.OnJobStateChange( Machines.CurrentMachine );
 		}
 
 		private void OnJobStarted( Machine machine )
@@ -92,9 +105,29 @@ namespace AncientForge.Machines
 			_machineDisplay.OnJobStateChange( machine );
 		}
 
+		private void OnJobProgress( Machine machine )
+		{
+			_machineDisplay.OnJobProgress( machine, machine == Machines.CurrentMachine );
+		}
+
+		private void OnJobFinished( Machine machine )
+		{
+			_machineDisplay.OnJobStateChange( machine );
+		}
+
+		private void OnItemCrafted( Machine machine, InventoryItemConfig itemConfig )
+		{
+			_player.Inventory.InventoryContent.TryAddItem( itemConfig, out _ );
+		}
+
+		private void OnMachineUnlocked( Machine machine )
+		{
+			_machineDisplay.OnMachineUnlocked( machine );
+		}
+
 		private void Update( )
 		{
-			_machines.ExecuteTick( Time.deltaTime );
+			Machines.ExecuteTick( Time.deltaTime );
 		}
 	}
 }

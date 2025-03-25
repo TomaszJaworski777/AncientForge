@@ -1,5 +1,4 @@
-﻿using System;
-using AncientForge.Inventory;
+﻿using AncientForge.Inventory;
 using AncientForge.Machines;
 using AncientForge.Quests;
 using UnityEngine;
@@ -16,28 +15,30 @@ namespace AncientForge
 		public QuestManager   QuestManager   => questManager;
 		public MachineManager MachineManager => machineManager;
 
-		public Action<InventoryItem>   OnItemCrafted    { get; set; }
-		public Action<QuestInProgress> OnQuestCompleted { get; set; }
-
 		private void Start( )
 		{
-			inventoryBase.Initialize();
-			questManager.Initialize( this );
+			inventoryBase.Initialize( );
+			questManager.Initialize( );
 			machineManager.Initialize( this );
+
+			questManager.OnQuestCompleted         += OnQuestCompletedHandler;
+			machineManager.Machines.OnItemCrafted += OnItemCraftedHandler;
 		}
 
-		private void OnEnable( )
+		private void OnDestroy( )
 		{
-			questManager.OnQuestCompleted += OnQuestCompletedHandler;
+			questManager.OnQuestCompleted         -= OnQuestCompletedHandler;
+			machineManager.Machines.OnItemCrafted -= OnItemCraftedHandler;
 		}
 
-		private void OnDisable( )
+		private void OnQuestCompletedHandler( QuestInProgress questInProgress )
 		{
-			questManager.OnQuestCompleted -= OnQuestCompletedHandler;
+			machineManager.OnQuestComplete( questInProgress.QuestConfig );
 		}
 
-		private void OnQuestCompletedHandler( QuestInProgress quest ) => OnQuestCompleted?.Invoke( quest );
-
-		private void OnItemCraftedHandler( InventoryItem inventoryItem ) => OnItemCrafted?.Invoke( inventoryItem );
+		private void OnItemCraftedHandler( Machine machine, InventoryItemConfig itemConfig )
+		{
+			questManager.OnItemCrafted( itemConfig );
+		}
 	}
 }

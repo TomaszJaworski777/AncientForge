@@ -14,6 +14,11 @@ namespace AncientForge.Selection
 			_selectionEffects = GetComponents<ISelectionEffect>( ).ToList( );
 		}
 
+		private void OnDisable( )
+		{
+			OnPointerExit( null );
+		}
+		
 		public void OnPointerEnter( PointerEventData eventData )
 		{
 			foreach ( var selector in _selectionEffects ) {

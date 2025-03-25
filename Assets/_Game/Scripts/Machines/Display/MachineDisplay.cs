@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AncientForge.Machines
 {
@@ -12,7 +13,7 @@ namespace AncientForge.Machines
 		[SerializeField] private RectTransform machineUiParent;
 
 		private          MachineManager                           _machineManager;
-		private readonly Dictionary<MachineConfig, MachineButton> _machines = new( );
+		private readonly Dictionary<MachineConfig, MachineButton> _machineButtons = new( );
 		private          MachineWidget                            _currentMachineWidget;
 
 		public Action<InventoryContent, InventoryItem, int> OnItemPressed { get; set; }
@@ -25,7 +26,7 @@ namespace AncientForge.Machines
 		public void InitializeMachine( Machine machine )
 		{
 			var machineButton = Instantiate( machine.MachineConfig.buttonPrefab, buttonListParent );
-			if ( _machines.TryAdd( machine.MachineConfig, machineButton ) ) {
+			if ( _machineButtons.TryAdd( machine.MachineConfig, machineButton ) ) {
 				machineButton.Initialize( machine );
 				machineButton.OnClick += ( ) => {
 					if ( !machine.IsUnlocked )
@@ -40,7 +41,7 @@ namespace AncientForge.Machines
 			Destroy( machineButton.gameObject );
 		}
 
-		public InventoryBase SelectMachine( Machine machine, Machines machines )
+		public (InventoryBase inventory, Button forgeButton) SelectMachine( Machine machine, Machines machines )
 		{
 			if ( _currentMachineWidget != null ) {
 				_currentMachineWidget.MachineInventory.DisplayEvents.OnItemPressed -= OnInventoryItemPress;
@@ -48,11 +49,11 @@ namespace AncientForge.Machines
 			}
 
 			_currentMachineWidget = Instantiate( machine.MachineConfig.uiPrefab, machineUiParent );
-			_currentMachineWidget.Initialize( machine, machines );
+			var forgeButton = _currentMachineWidget.Initialize( machine );
 			
 			_currentMachineWidget.MachineInventory.DisplayEvents.OnItemPressed += OnInventoryItemPress;
 			
-			return _currentMachineWidget.MachineInventory;
+			return ( _currentMachineWidget.MachineInventory, forgeButton);
 		}
 
 		private void OnInventoryItemPress( InventoryContent content, InventoryItem item, int slotIndex )
@@ -66,6 +67,19 @@ namespace AncientForge.Machines
 				return;
 			
 			_currentMachineWidget.OnJobStateChange( machine );
+		}
+		
+		public void OnJobProgress( Machine machine, bool currentMachine )
+		{
+			if(currentMachine)
+				_currentMachineWidget.OnJobProgress( machine );
+			
+			_machineButtons[machine.MachineConfig].OnJobProgress( machine );
+		}
+
+		public void OnMachineUnlocked( Machine machine )
+		{
+			_machineButtons[machine.MachineConfig].Unlock();
 		}
 	}
 }

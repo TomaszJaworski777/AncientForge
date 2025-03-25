@@ -23,11 +23,6 @@ namespace AncientForge.Machines
 			selectableObject.enabled = machine.IsUnlocked;
 		}
 
-		public void UpdateProgress( Machine machine )
-		{
-			fill.FillAmount = !machine.IsWorking ? 0 : machine.Progress / machine.WorkDuration;
-		}
-
 		public void Unlock( )
 		{
 			lockObject.SetActive( false );
@@ -37,6 +32,11 @@ namespace AncientForge.Machines
 		public void OnPointerClick( PointerEventData eventData )
 		{
 			OnClick?.Invoke( );
+		}
+
+		public void OnJobProgress( Machine machine )
+		{
+			fill.FillAmount = !machine.IsWorking ? 0 : machine.Progress / machine.WorkDuration;
 		}
 	}
 }
