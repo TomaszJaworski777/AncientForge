@@ -4,15 +4,16 @@ using AncientForge.ScaleFill;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace AncientForge.Machines
 {
 	public class MachineButton : MonoBehaviour, IPointerClickHandler
 	{
-		[SerializeField] private TMP_Text         nameText;
-		[SerializeField] private ImageScaleFill   fill;
-		[SerializeField] private GameObject       lockObject;
-		[SerializeField] private SelectableObject selectableObject;
+		[SerializeField]                                              private TMP_Text        nameText;
+		[SerializeField]                                              private ImageScaleFill  fill;
+		[SerializeField]                                              private GameObject      lockObject;
+		[FormerlySerializedAs( "selectableObject" )] [SerializeField] private HighlightObject highlightObject;
 
 		public Action OnClick { get; set; }
 
@@ -20,13 +21,13 @@ namespace AncientForge.Machines
 		{
 			nameText.text = machine.MachineConfig.machineName;
 			lockObject.SetActive( !machine.IsUnlocked );
-			selectableObject.enabled = machine.IsUnlocked;
+			highlightObject.enabled = machine.IsUnlocked;
 		}
 
 		public void Unlock( )
 		{
 			lockObject.SetActive( false );
-			selectableObject.enabled = true;
+			highlightObject.enabled = true;
 		}
 
 		public void OnPointerClick( PointerEventData eventData )

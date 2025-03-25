@@ -1668,6 +1668,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3961983112204348451}
+  - component: {fileID: 8457695873294570733}
+  - component: {fileID: 4715143330801573912}
   m_Layer: 5
   m_Name: ResultSlot
   m_TagString: Untagged
@@ -1697,6 +1699,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 125, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8457695873294570733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8425650532040687956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc154de1c846f381c9145a487d74dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4715143330801573912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8425650532040687956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e50ad4cc95b41738ae7f8418505628d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8444835010117359764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1830,9 +1856,10 @@ MonoBehaviour:
   titleText: {fileID: 5851553787124063576}
   descriptionText: {fileID: 9181259012143306000}
   resultIcon: {fileID: 8118364094704442732}
+  resultTooltipHighlightEffect: {fileID: 4715143330801573912}
   inventoryBase: {fileID: 7545192220662650416}
   forgeButton: {fileID: 8475706781987126767}
-  forgeButtonSelectableObject: {fileID: 8361180236183823222}
+  forgeButtonHighlightObject: {fileID: 8361180236183823222}
   forgeButtonCanvasGroup: {fileID: 6253746956361099507}
   fill: {fileID: 6990060273127543637}
   durationText: {fileID: 4284573023012622683}

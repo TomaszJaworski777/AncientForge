@@ -3,7 +3,7 @@
 
 namespace AncientForge.Selection
 {
-	public class ResizeSelectionEffect : MonoBehaviour, ISelectionEffect
+	public class ResizeHighlightEffect : MonoBehaviour, IHighlightEffect
 	{
 		[SerializeField] private RectTransform target;
 		[SerializeField] private float         sizeMultiplier;
@@ -15,12 +15,12 @@ namespace AncientForge.Selection
 			_baseSize = target.localScale;
 		}
 
-		public void Select( )
+		public void Activate( )
 		{
 			target.localScale = _baseSize * sizeMultiplier;
 		}
 
-		public void Deselect( )
+		public void Deactivate( )
 		{
 			target.localScale = _baseSize;
 		}

@@ -9,16 +9,17 @@ namespace AncientForge.Machines
 {
 	public class MachineWidget : MonoBehaviour
 	{
-		[SerializeField] private TMP_Text         titleText;
-		[SerializeField] private TMP_Text         descriptionText;
-		[SerializeField] private Image            resultIcon;
-		[SerializeField] private InventoryBase    inventoryBase;
-		[SerializeField] private Button           forgeButton;
-		[SerializeField] private SelectableObject forgeButtonSelectableObject;
-		[SerializeField] private CanvasGroup      forgeButtonCanvasGroup;
-		[SerializeField] private ImageScaleFill   fill;
-		[SerializeField] private ForgeStatText    durationText;
-		[SerializeField] private ForgeStatText    successChanceText;
+		[SerializeField] private TMP_Text               titleText;
+		[SerializeField] private TMP_Text               descriptionText;
+		[SerializeField] private Image                  resultIcon;
+		[SerializeField] private TooltipHighlightEffect resultTooltipHighlightEffect;
+		[SerializeField] private InventoryBase          inventoryBase;
+		[SerializeField] private Button                 forgeButton;
+		[SerializeField] private HighlightObject        forgeButtonHighlightObject;
+		[SerializeField] private CanvasGroup            forgeButtonCanvasGroup;
+		[SerializeField] private ImageScaleFill         fill;
+		[SerializeField] private ForgeStatText          durationText;
+		[SerializeField] private ForgeStatText          successChanceText;
 
 		private string _durationFormat      = string.Empty;
 		private string _successChanceFormat = string.Empty;
@@ -48,8 +49,10 @@ namespace AncientForge.Machines
 			ActivateForgeUI( machine?.MatchingRecipe != null && !machine.IsWorking );
 			resultIcon.color = machine?.MatchingRecipe != null ? new( 1, 1, 1, 1 ) : new( 0, 0, 0, 0 );
 
-			if ( machine?.MatchingRecipe == null )
+			if ( machine?.MatchingRecipe == null ) {
+				resultTooltipHighlightEffect.SetItemConfig( null );
 				return;
+			}
 
 			durationText.DisplayStat( _durationFormat, Mathf.RoundToInt( machine.WorkDuration ),
 				Mathf.RoundToInt( machine.MatchingRecipe.duration ) );
@@ -58,6 +61,7 @@ namespace AncientForge.Machines
 				Mathf.RoundToInt( machine.MatchingRecipe.successChance * 100f ) );
 
 			resultIcon.sprite = machine.MatchingRecipe.product.icon;
+			resultTooltipHighlightEffect.SetItemConfig( machine.MatchingRecipe.product );
 		}
 
 		public void OnJobProgress( Machine machine )
@@ -67,8 +71,8 @@ namespace AncientForge.Machines
 
 		private void ActivateForgeUI( bool state )
 		{
-			forgeButtonSelectableObject.enabled = state;
-			forgeButtonCanvasGroup.enabled      = !state;
+			forgeButtonHighlightObject.enabled = state;
+			forgeButtonCanvasGroup.enabled     = !state;
 			durationText.gameObject.SetActive( state );
 			successChanceText.gameObject.SetActive( state );
 		}

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace AncientForge.Selection
 {
-	public class ColorSwapSelectionEffect : MonoBehaviour, ISelectionEffect
+	public class ColorSwapHighlightEffect : MonoBehaviour, IHighlightEffect
 	{
 		[SerializeField] private Image target;
 		[SerializeField] private Color selectedColor;
@@ -15,12 +15,12 @@ namespace AncientForge.Selection
 			_baseColor = target.color;
 		}
 
-		public void Select( )
+		public void Activate( )
 		{
 			target.color = selectedColor;
 		}
 
-		public void Deselect( )
+		public void Deactivate( )
 		{
 			target.color = _baseColor;
 		}

@@ -5,13 +5,13 @@ using UnityEngine.EventSystems;
 
 namespace AncientForge.Selection
 {
-	public class SelectableObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class HighlightObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
-		private List<ISelectionEffect> _selectionEffects;
+		private List<IHighlightEffect> _highlightEffects;
 
 		private void Awake( )
 		{
-			_selectionEffects = GetComponents<ISelectionEffect>( ).ToList( );
+			_highlightEffects = GetComponents<IHighlightEffect>( ).ToList( );
 		}
 
 		private void OnDisable( )
@@ -21,15 +21,15 @@ namespace AncientForge.Selection
 		
 		public void OnPointerEnter( PointerEventData eventData )
 		{
-			foreach ( var selector in _selectionEffects ) {
-				selector.Select( );
+			foreach ( var selector in _highlightEffects ) {
+				selector.Activate( );
 			}
 		}
 
 		public void OnPointerExit( PointerEventData eventData )
 		{
-			foreach ( var selector in _selectionEffects ) {
-				selector.Deselect( );
+			foreach ( var selector in _highlightEffects ) {
+				selector.Deactivate( );
 			}
 		}
 	}
