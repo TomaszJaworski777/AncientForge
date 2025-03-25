@@ -497,7 +497,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.1
 --- !u!1 &4703186323320111494
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,8 +533,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -190, y: 0}
-  m_SizeDelta: {x: 380, y: 90}
+  m_AnchoredPosition: {x: -195, y: 0}
+  m_SizeDelta: {x: 390, y: 90}
   m_Pivot: {x: 0, y: 0.49999988}
 --- !u!222 &1664289059110651507
 CanvasRenderer:
@@ -586,8 +586,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3d8d60588f4838b191b57547b7a267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWidth: 50
-  maxWidth: 380
+  minScale: 50
+  maxScale: 390
+  axis: 0
   fillAmount: 0
 --- !u!1 &4809453674611742495
 GameObject:

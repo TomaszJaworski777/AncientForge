@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace AncientForge.WidthFill
+namespace AncientForge.ScaleFill
 {
-	public class ImageWidthFill : MonoBehaviour
+	public class ImageScaleFill : MonoBehaviour
 	{
-		[SerializeField] private float minWidth;
-		[SerializeField] private float maxWidth;
+		[SerializeField] private float              minScale;
+		[SerializeField] private float              maxScale;
+		[SerializeField] private RectTransform.Axis axis;
 
 		private RectTransform _rectTransform;
 		private Image         _image;
@@ -24,10 +25,9 @@ namespace AncientForge.WidthFill
 					_image.enabled = false;
 					return;
 				}
-				
+
 				_image.enabled = true;
-				_rectTransform.SetSizeWithCurrentAnchors( RectTransform.Axis.Horizontal,
-					Mathf.Lerp( minWidth, maxWidth, fillAmount ) );
+				_rectTransform.SetSizeWithCurrentAnchors( axis, Mathf.Lerp( minScale, maxScale, fillAmount ) );
 			}
 		}
 

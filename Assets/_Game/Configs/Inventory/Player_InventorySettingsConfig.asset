@@ -15,12 +15,12 @@ MonoBehaviour:
   allowStacking: 1
   startingResources:
   - itemConfig: {fileID: 11400000, guid: 64cab39d3c56b5548b89a097d3dfdcdc, type: 2}
-    quantityRange: {x: 30, y: 50}
+    quantityRange: {x: 3, y: 5}
   - itemConfig: {fileID: 11400000, guid: f0d714b31d54a1e458142bd1462135b2, type: 2}
-    quantityRange: {x: 10, y: 30}
+    quantityRange: {x: 1, y: 3}
   - itemConfig: {fileID: 11400000, guid: 1ef217eb94ccc6441a8883565935eeb6, type: 2}
-    quantityRange: {x: 0, y: 20}
+    quantityRange: {x: 0, y: 2}
   - itemConfig: {fileID: 11400000, guid: 60225be3bc045064195870c8f87f8ff0, type: 2}
-    quantityRange: {x: 0, y: 20}
+    quantityRange: {x: 0, y: 2}
   - itemConfig: {fileID: 11400000, guid: b25d3dace2720a3489b8759842673dd2, type: 2}
-    quantityRange: {x: 0, y: 10}
+    quantityRange: {x: 0, y: 1}

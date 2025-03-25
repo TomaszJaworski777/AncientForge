@@ -1,6 +1,6 @@
 ﻿using System;
 using AncientForge.Selection;
-using AncientForge.WidthFill;
+using AncientForge.ScaleFill;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +10,7 @@ namespace AncientForge.Machines
 	public class MachineButton : MonoBehaviour, IPointerClickHandler
 	{
 		[SerializeField] private TMP_Text         nameText;
-		[SerializeField] private ImageWidthFill   fill;
+		[SerializeField] private ImageScaleFill   fill;
 		[SerializeField] private GameObject       lockObject;
 		[SerializeField] private SelectableObject selectableObject;
 
