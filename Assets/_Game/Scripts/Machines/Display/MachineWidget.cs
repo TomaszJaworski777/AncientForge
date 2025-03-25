@@ -24,8 +24,13 @@ namespace AncientForge.Machines
 
 		public InventoryBase MachineInventory => inventoryBase;
 
-		public void Initialize( Machine machine )
+		public void Initialize( Machine machine, Machines machines )
 		{
+			if ( machine.Inventory == null )
+				inventoryBase.Initialize( );
+			else
+				inventoryBase.Initialize( machine.Inventory );
+
 			titleText.text       = machine.MachineConfig.machineName;
 			descriptionText.text = machine.MachineConfig.description;
 
@@ -34,26 +39,26 @@ namespace AncientForge.Machines
 
 			OnRecipeChange( null, null );
 
-			forgeButton.onClick.AddListener( ( ) => {
-				if ( machine.MatchingRecipe == null )
-					return;
-
-				machine.StartJob( );
-			} );
+			forgeButton.onClick.AddListener( machines.StartJob );
 		}
 
 		public void OnRecipeChange( Machine machine, RecipeConfig recipeConfig )
 		{
-			forgeButtonSelectableObject.enabled = recipeConfig != null;
-			forgeButtonCanvasGroup.enabled      = recipeConfig == null;
-			durationText.gameObject.SetActive( recipeConfig != null );
-			successChanceText.gameObject.SetActive( recipeConfig != null );
+			ActivateForgeUI( recipeConfig != null && !machine.IsWorking );
 
 			if ( recipeConfig == null )
 				return;
 
 			durationText.text      = string.Format( _durationFormat, machine.WorkDuration );
 			successChanceText.text = string.Format( _durationFormat, Mathf.RoundToInt( machine.SuccessChance * 100f ) );
+		}
+
+		private void ActivateForgeUI( bool state )
+		{
+			forgeButtonSelectableObject.enabled = state;
+			forgeButtonCanvasGroup.enabled      = !state;
+			durationText.gameObject.SetActive( state );
+			successChanceText.gameObject.SetActive( state );
 		}
 	}
 }

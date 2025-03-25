@@ -12,25 +12,35 @@ namespace AncientForge.Inventory
 		[SerializeField] private InventorySettingsConfig inventorySettings;
 
 		private InventoryDisplay _display;
-		private InventoryContent _items;
+
+		public InventoryContent InventoryContent { get; private set; }
 
 		public InventoryDisplay.Events DisplayEvents => _display?.DisplayEvents;
+		
+		public List<InventoryItemStack> Items => InventoryContent.ItemStacks.Where( itemStack => !itemStack.IsEmpty ).ToList();
 
-		public Action<InventoryItem> OnItemAdded   { get; set; }
-		public Action<InventoryItem> OnItemRemoved { get; set; }
-
-		public List<InventoryItemStack> Items => _items.Items.Where( itemStack => !itemStack.IsEmpty ).ToList();
-
-		private void Awake( )
+		public void Initialize( )
 		{
 			//Separated display script allows for easy modification in the scenario where you want to use the inventory without display
 			//(f.ex. enemy unit inventory)
 			_display = GetComponent<InventoryDisplay>( );
 			_display.Initialize( this );
 
-			_items = new( _display.SlotCount, inventorySettings.allowStacking );
+			InventoryContent = new( _display.SlotCount, inventorySettings.allowStacking );
 
 			InitializeStartResources( );
+		}
+		
+		public void Initialize( InventoryContent inventoryContent )
+		{
+			_display = GetComponent<InventoryDisplay>( );
+			_display.Initialize( this );
+
+			InventoryContent = inventoryContent;
+
+			for ( var slotIndex = 0; slotIndex < InventoryContent.ItemStacks.Count; slotIndex++ ) {
+				_display.UpdateDisplay( slotIndex, InventoryContent.GetItemStack( slotIndex ) );
+			}
 		}
 
 		private void InitializeStartResources( )
@@ -42,37 +52,29 @@ namespace AncientForge.Inventory
 					: Random.Range( startResource.quantityRange.x, startResource.quantityRange.y + 1 );
 
 				for ( var i = 0; i < resourceCount; i++ ) {
-					if ( !TryAdd( startResource.itemConfig ) )
+					if ( !TryAddItem( startResource.itemConfig ) )
 						break;
 				}
 			}
 		}
-		
-		public int GetIndexOfStack( InventoryItemStack itemStack ) => _items.Items.IndexOf( itemStack );
 
-		public InventoryItem GetItem( int slotIndex ) => _items.GetItem( slotIndex );
+		public bool TryAddItem( InventoryItemConfig itemConfig ) => TryAddItem( new InventoryItem( itemConfig ) );
 
-		public InventoryItemStack GetItemStack( int slotIndex ) => _items.GetItemStack( slotIndex );
-
-		public bool TryAdd( InventoryItemConfig itemConfig ) => TryAdd( new InventoryItem( itemConfig ) );
-
-		public bool TryAdd( InventoryItem item )
+		public bool TryAddItem( InventoryItem item )
 		{
-			if ( !_items.TryAddItem( item, out var slotIndex ) )
+			if ( !InventoryContent.TryAddItem( item, out var slotIndex ) )
 				return false;
-
-			OnItemAdded?.Invoke( item );
-			_display.UpdateDisplay( slotIndex, _items.GetItemStack( slotIndex ) );
+			
+			_display.UpdateDisplay( slotIndex, InventoryContent.GetItemStack( slotIndex ) );
 			return true;
 		}
 		
-		public bool TryRemove( int slotIndex, out InventoryItem item )
+		public bool TryRemoveItem( int slotIndex, out InventoryItem item )
 		{
-			if ( !_items.TryTakeItem( slotIndex, out item ) )
+			if ( !InventoryContent.TryRemoveItem( slotIndex, out item ) )
 				return false;
-
-			OnItemRemoved?.Invoke( item );
-			_display.UpdateDisplay( slotIndex, _items.GetItemStack( slotIndex ) );
+			
+			_display.UpdateDisplay( slotIndex, InventoryContent.GetItemStack( slotIndex ) );
 			return true;
 		}
 	}

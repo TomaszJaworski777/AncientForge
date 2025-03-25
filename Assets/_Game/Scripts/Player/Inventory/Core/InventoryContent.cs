@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AncientForge.Inventory
 {
 	public class InventoryContent
 	{
-		public List<InventoryItemStack> Items { get; }
-
-		public bool IsFull => Items.All( itemStack => itemStack.IsFull );
+		public List<InventoryItemStack> ItemStacks { get; }
+		
+		public Action<InventoryItem> OnItemAdded   { get; set; }
+		public Action<InventoryItem> OnItemRemoved { get; set; }
+		
+		public List<InventoryItemStack> Items => ItemStacks.Where( itemStack => !itemStack.IsEmpty ).ToList();
+		
+		public bool IsFull => ItemStacks.All( itemStack => itemStack.IsFull );
 
 		/// <summary>
 		/// Initialize with empty item stacks.
@@ -16,21 +22,23 @@ namespace AncientForge.Inventory
 		/// <param name="allowStacking">Defines if items can stack in this inventory.</param>
 		public InventoryContent( int inventorySize, bool allowStacking )
 		{
-			Items = new( inventorySize );
+			ItemStacks = new( inventorySize );
 			for ( var i = 0; i < inventorySize; i++ ) {
-				Items.Add( new( allowStacking ) );
+				ItemStacks.Add( new( allowStacking ) );
 			}
 		}
 
+		public int GetIndexOfStack( InventoryItemStack itemStack ) => ItemStacks.IndexOf( itemStack );
+		
 		public InventoryItem GetItem( int slotIndex ) => GetItemStack( slotIndex ).Item;
 
 		public InventoryItemStack GetItemStack( int slotIndex )
 		{
 			//Not turning that into '?' operator to reduce the workload on someone who would want to add more checks in the future
-			if ( slotIndex > Items.Count - 1 )
+			if ( slotIndex > ItemStacks.Count - 1 )
 				return null;
 
-			return Items[slotIndex];
+			return ItemStacks[slotIndex];
 		}
 
 		public bool TryAddItem( InventoryItemConfig itemConfig, out int slotIndex ) =>
@@ -46,34 +54,43 @@ namespace AncientForge.Inventory
 			if ( !TryFindSlotForItem( item, out slotIndex ) )
 				return false;
 
-			return Items[slotIndex].TryAdd( item );
+			if ( !ItemStacks[slotIndex].TryAdd( item ) )
+				return false;	
+			
+			OnItemAdded?.Invoke( item );
+			return true;
 		}
 
-		public bool TryTakeItem( int slotIndex, out InventoryItem item )
+		public bool TryRemoveItem( int slotIndex, out InventoryItem item )
 		{
 			item = null;
 
-			if ( slotIndex > Items.Count - 1 )
+			if ( slotIndex > ItemStacks.Count - 1 )
 				return false;
 
-			if ( Items[slotIndex].IsEmpty )
+			if ( ItemStacks[slotIndex].IsEmpty )
 				return false;
 
 			var itemStack = GetItemStack( slotIndex );
 			item = itemStack.Item;
-			return itemStack.TryRemove( );
+
+			if ( !itemStack.TryRemove( ) )
+				return false;
+			
+			OnItemRemoved?.Invoke( item );
+			return true;
 		}
 
 		private bool TryFindSlotForItem( InventoryItem item, out int slotIndex )
 		{
 			slotIndex = 0;
-			var availableItemStacks = Items.Where( itemStack =>
+			var availableItemStacks = ItemStacks.Where( itemStack =>
 				( itemStack.Item == item && !itemStack.IsFull ) || ( itemStack.Item == null && itemStack.IsEmpty ) ).ToList( );
 
 			if ( !availableItemStacks.Any( ) )
 				return false;
 
-			slotIndex = Items.IndexOf( availableItemStacks.First( ) );
+			slotIndex = ItemStacks.IndexOf( availableItemStacks.First( ) );
 			return true;
 		}
 	}

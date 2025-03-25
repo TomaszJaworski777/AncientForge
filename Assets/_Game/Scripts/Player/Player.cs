@@ -21,6 +21,7 @@ namespace AncientForge
 
 		private void Start( )
 		{
+			inventoryBase.Initialize();
 			questManager.Initialize( this );
 			machineManager.Initialize( this );
 		}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
 using UnityEngine;
@@ -13,6 +14,10 @@ namespace AncientForge.Machines
 		private          MachineManager                           _machineManager;
 		private readonly Dictionary<MachineConfig, MachineButton> _machines = new( );
 		private          MachineWidget                            _currentMachineWidget;
+		
+		public InventoryBase CurrentMachineInventoryBase => _currentMachineWidget?.MachineInventory;
+
+		public Action<InventoryItem, Action> OnItemPressed { get; set; }
 
 		private void Awake( )
 		{
@@ -37,17 +42,26 @@ namespace AncientForge.Machines
 			Destroy( machineButton.gameObject );
 		}
 
-		public InventoryBase SelectMachine( Machine machine )
+		public InventoryBase SelectMachine( Machine machine, Machines machines )
 		{
 			if ( _currentMachineWidget != null ) {
+				_currentMachineWidget.MachineInventory.DisplayEvents.OnItemPressed -= OnInventoryItemPress;
 				Destroy( _currentMachineWidget.gameObject );
 			}
 
 			_currentMachineWidget = Instantiate( machine.MachineConfig.uiPrefab, machineUiParent );
-			_currentMachineWidget.Initialize( machine );
+			_currentMachineWidget.Initialize( machine, machines );
+			
+			_currentMachineWidget.MachineInventory.DisplayEvents.OnItemPressed += OnInventoryItemPress;
+			
 			return _currentMachineWidget.MachineInventory;
 		}
 
+		private void OnInventoryItemPress( InventoryItem item, Action callback )
+		{
+			OnItemPressed?.Invoke(item, callback);
+		}
+		
 		public void OnRecipeChange( Machine machine, RecipeConfig recipeConfig )
 		{
 			if(_currentMachineWidget == null)

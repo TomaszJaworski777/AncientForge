@@ -35,13 +35,13 @@ namespace AncientForge.Inventory
 
 		public void OnInventorySlotPressed( int slotIndex )
 		{
-			var itemStack = _inventoryBase.GetItemStack( slotIndex );
+			var itemStack = _inventoryBase.InventoryContent.GetItemStack( slotIndex );
 
 			if ( itemStack.IsEmpty )
 				return;
 
 			DisplayEvents.OnItemPressed?.Invoke( itemStack.Item, ( ) => {
-				if ( !_inventoryBase.TryRemove( slotIndex, out _ ) )
+				if ( !_inventoryBase.TryRemoveItem( slotIndex, out _ ) )
 					Debug.LogError( "Trying to take out item from empty inventory slot" );
 			} );
 		}

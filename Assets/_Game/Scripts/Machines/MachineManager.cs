@@ -32,6 +32,7 @@ namespace AncientForge.Machines
 			_player   = player;
 
 			_player.Inventory.DisplayEvents.OnItemPressed += OnPlayerItemPass;
+			_machineDisplay.OnItemPressed                 += OnMachineItemPress;
 			_machines.OnCurrentMachineChange              += OnCurrentMachineChange;
 			_machines.OnCurrentRecipeChange               += OnCurrentRecipeChange;
 
@@ -42,13 +43,8 @@ namespace AncientForge.Machines
 
 		private void OnCurrentMachineChange( Machine oldMachine, Machine newMachine )
 		{
-			if ( oldMachine != null )
-				oldMachine.Inventory.DisplayEvents.OnItemPressed -= OnMachineItemPress;
-
-			var inventory = _machineDisplay.SelectMachine( newMachine );
-			newMachine.Inventory = inventory;
-
-			newMachine.Inventory.DisplayEvents.OnItemPressed += OnMachineItemPress;
+			var inventory = _machineDisplay.SelectMachine( newMachine, _machines );
+			newMachine.Inventory      = inventory.InventoryContent;
 		}
 
 		private void OnPlayerItemPass( InventoryItem item, Action callback )
@@ -56,9 +52,9 @@ namespace AncientForge.Machines
 			if ( item == null )
 				return;
 
-			if ( !_machines.CurrentMachine.Inventory.TryAdd( item ) )
+			if ( !_machineDisplay.CurrentMachineInventoryBase.TryAddItem( item) )
 				return;
-
+			
 			callback?.Invoke( );
 		}
 
@@ -70,7 +66,7 @@ namespace AncientForge.Machines
 			if ( _machines.CurrentMachine.IsWorking )
 				return;
 
-			if ( !_player.Inventory.TryAdd( item ) )
+			if ( !_player.Inventory.TryAddItem( item ) )
 				return;
 
 			callback?.Invoke( );
@@ -79,6 +75,11 @@ namespace AncientForge.Machines
 		private void OnCurrentRecipeChange( RecipeConfig recipeConfig )
 		{
 			_machineDisplay.OnRecipeChange( _machines.CurrentMachine, recipeConfig );
+		}
+
+		private void Update( )
+		{
+			_machines.ExecuteTick( Time.deltaTime );
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using _Game.Scripts.Recipes;
 using AncientForge.Inventory;
 using AncientForge.Quests;
+using UnityEngine;
 
 namespace AncientForge.Machines
 {
@@ -13,11 +14,11 @@ namespace AncientForge.Machines
 		public bool IsUnlocked  { get; private set; }
 		public int  UnlockStage { get; private set; }
 
-		public InventoryBase Inventory { get; set; }
+		public InventoryContent Inventory { get; set; }
 
-		public bool  IsWorking    { get; private set; }
-		public float Progress     { get; set; }
-		public float WorkDuration { get; private set; }
+		public bool  IsWorking     { get; private set; }
+		public float Progress      { get; set; }
+		public float WorkDuration  { get; private set; }
 		public float SuccessChance { get; private set; }
 
 		public RecipeConfig MatchingRecipe { get; private set; }
@@ -66,11 +67,11 @@ namespace AncientForge.Machines
 			return true;
 		}
 
-		public void StartJob()
+		public void StartJob( )
 		{
-			if(MatchingRecipe == null)
+			if ( MatchingRecipe == null )
 				return;
-			
+
 			IsWorking    = true;
 			WorkDuration = MatchingRecipe.duration;
 		}
