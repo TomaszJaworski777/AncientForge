@@ -17,8 +17,8 @@ namespace AncientForge.Machines
 		[SerializeField] private SelectableObject forgeButtonSelectableObject;
 		[SerializeField] private CanvasGroup      forgeButtonCanvasGroup;
 		[SerializeField] private ImageScaleFill   fill;
-		[SerializeField] private TMP_Text         durationText;
-		[SerializeField] private TMP_Text         successChanceText;
+		[SerializeField] private ForgeStatText    durationText;
+		[SerializeField] private ForgeStatText    successChanceText;
 
 		private string _durationFormat      = string.Empty;
 		private string _successChanceFormat = string.Empty;
@@ -35,8 +35,8 @@ namespace AncientForge.Machines
 			titleText.text       = machine.MachineConfig.machineName;
 			descriptionText.text = machine.MachineConfig.description;
 
-			_durationFormat      = durationText.text;
-			_successChanceFormat = successChanceText.text;
+			_durationFormat      = durationText.Text;
+			_successChanceFormat = successChanceText.Text;
 
 			OnJobStateChange( null );
 
@@ -51,9 +51,13 @@ namespace AncientForge.Machines
 			if ( machine?.MatchingRecipe == null )
 				return;
 
-			durationText.text      = string.Format( _durationFormat, machine.WorkDuration );
-			successChanceText.text = string.Format( _successChanceFormat, Mathf.RoundToInt( machine.SuccessChance * 100f ) );
-			resultIcon.sprite      = machine.MatchingRecipe.product.icon;
+			durationText.DisplayStat( _durationFormat, Mathf.RoundToInt( machine.WorkDuration ),
+				Mathf.RoundToInt( machine.MatchingRecipe.duration ) );
+
+			successChanceText.DisplayStat( _successChanceFormat, Mathf.RoundToInt( machine.SuccessChance * 100f ),
+				Mathf.RoundToInt( machine.MatchingRecipe.successChance * 100f ) );
+
+			resultIcon.sprite = machine.MatchingRecipe.product.icon;
 		}
 
 		public void OnJobProgress( Machine machine )
@@ -67,7 +71,6 @@ namespace AncientForge.Machines
 			forgeButtonCanvasGroup.enabled      = !state;
 			durationText.gameObject.SetActive( state );
 			successChanceText.gameObject.SetActive( state );
-			;
 		}
 	}
 }

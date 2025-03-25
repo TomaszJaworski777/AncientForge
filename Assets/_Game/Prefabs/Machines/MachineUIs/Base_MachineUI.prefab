@@ -1365,6 +1365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7706557476029815771}
   - component: {fileID: 8518018359884912874}
+  - component: {fileID: 5806659442538253133}
   - component: {fileID: 1169764942382066523}
   m_Layer: 5
   m_Name: SuccessChangeText
@@ -1400,6 +1401,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7475355439246107566}
   m_CullTransparentMesh: 1
+--- !u!114 &5806659442538253133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7475355439246107566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ef7259a9644b80b18719087f1504ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  increaseColor: {r: 0.4072623, g: 0.9056604, b: 0.46042198, a: 1}
+  decreaseColor: {r: 0.8930817, g: 0.27015752, b: 0.25556725, a: 1}
+  lowerBetter: 0
 --- !u!114 &1169764942382066523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,7 +1436,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Success Chance: {0}%'
+  m_text: 'Success Chance: <color={0}>{1}%</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
   m_sharedMaterial: {fileID: -5632946630366658612, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
@@ -1501,6 +1517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8740931545656749565}
   - component: {fileID: 657071154078896165}
+  - component: {fileID: 4284573023012622683}
   - component: {fileID: 3636464036953148656}
   m_Layer: 5
   m_Name: DurationText
@@ -1536,6 +1553,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7507841252531806389}
   m_CullTransparentMesh: 1
+--- !u!114 &4284573023012622683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507841252531806389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ef7259a9644b80b18719087f1504ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  increaseColor: {r: 0.4072623, g: 0.9056604, b: 0.46042198, a: 1}
+  decreaseColor: {r: 0.8930817, g: 0.27015752, b: 0.25556725, a: 1}
+  lowerBetter: 1
 --- !u!114 &3636464036953148656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,7 +1588,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Duration: {0}s'
+  m_text: 'Duration: <color={0}>{1}s</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
   m_sharedMaterial: {fileID: -5632946630366658612, guid: 8226e4ea69f49cb4baf15242b734092f, type: 2}
@@ -1803,8 +1835,8 @@ MonoBehaviour:
   forgeButtonSelectableObject: {fileID: 8361180236183823222}
   forgeButtonCanvasGroup: {fileID: 6253746956361099507}
   fill: {fileID: 6990060273127543637}
-  durationText: {fileID: 3636464036953148656}
-  successChanceText: {fileID: 1169764942382066523}
+  durationText: {fileID: 4284573023012622683}
+  successChanceText: {fileID: 5806659442538253133}
 --- !u!1001 &1518541353497982234
 PrefabInstance:
   m_ObjectHideFlags: 0
